@@ -34,19 +34,33 @@ tabButtons.forEach(btn => {
         tabButtons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         
-        // Filter projects
-        projectCards.forEach(card => {
+        // Filter projects with animation
+        projectCards.forEach((card, index) => {
             const category = card.getAttribute('data-category');
             
-            if (filter === 'all') {
-                card.style.display = 'block';
-            } else {
-                if (category && category.includes(filter)) {
+            // Hide all cards first with fade out
+            card.style.opacity = '0';
+            card.style.transform = 'scale(0.8)';
+            
+            setTimeout(() => {
+                if (filter === 'all') {
                     card.style.display = 'block';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'scale(1)';
+                    }, 50);
                 } else {
-                    card.style.display = 'none';
+                    if (category && category.includes(filter)) {
+                        card.style.display = 'block';
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'scale(1)';
+                        }, 50);
+                    } else {
+                        card.style.display = 'none';
+                    }
                 }
-            }
+            }, 200);
         });
     });
 });

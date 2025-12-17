@@ -6,14 +6,15 @@
 }
 
 :root {
-    --primary-color: #4338ca;
-    --secondary-color: #6d28d9;
-    --dark-color: #0a0e1a;
-    --light-color: #0f1419;
-    --text-color: #e2e8f0;
-    --gray-color: #94a3b8;
-    --border-color: #1e293b;
-    --success-color: #059669;
+    /* Improved color palette for better contrast and visibility */
+    --primary-color: #6366f1;        /* Brighter indigo */
+    --secondary-color: #8b5cf6;      /* Vibrant purple */
+    --dark-color: #0a0e1a;           /* Deep navy background */
+    --light-color: #0f1419;          /* Dark slate background */
+    --text-color: #f1f5f9;           /* Bright slate for text */
+    --gray-color: #cbd5e1;           /* Light slate for secondary text */
+    --border-color: #1e293b;         /* Slate border */
+    --success-color: #059669;        /* Green accent */
     --gradient: linear-gradient(135deg, #312e81 0%, #4c1d95 100%);
     --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.7);
@@ -24,7 +25,7 @@ html {
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Fira Code', 'JetBrains Mono', 'Courier New', 'Consolas', 'Monaco', monospace;
     line-height: 1.6;
     color: var(--text-color);
     background-color: var(--light-color);
@@ -104,9 +105,10 @@ section {
     top: 0;
     left: 0;
     width: 100%;
-    background-color: rgba(10, 14, 26, 0.95);
+    background-color: rgba(10, 14, 26, 0.98);
     backdrop-filter: blur(10px);
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+    border-bottom: 1px solid rgba(99, 102, 241, 0.2);
     z-index: 10000;
     transition: all 0.3s ease;
 }
@@ -135,7 +137,7 @@ section {
 
 .nav-link {
     text-decoration: none;
-    color: var(--text-color);
+    color: #f1f5f9;
     font-weight: 500;
     font-size: 16px;
     transition: all 0.3s ease;
@@ -154,7 +156,7 @@ section {
 }
 
 .nav-link:hover {
-    color: var(--primary-color);
+    color: #a5b4fc;
 }
 
 .nav-link:hover::after {
@@ -170,7 +172,7 @@ section {
 .hamburger .bar {
     width: 25px;
     height: 3px;
-    background-color: var(--text-color);
+    background-color: #f1f5f9;
     margin: 3px 0;
     transition: 0.3s;
 }
@@ -213,7 +215,7 @@ section {
 .hero-title {
     font-size: 56px;
     font-weight: 700;
-    color: var(--dark-color);
+    color: #ffffff;
     margin-bottom: 20px;
     animation: fadeInUp 1s ease;
 }
@@ -227,7 +229,7 @@ section {
 
 .hero-subtitle {
     font-size: 32px;
-    color: var(--gray-color);
+    color: #a5b4fc;
     margin-bottom: 20px;
     min-height: 48px;
     animation: fadeInUp 1s ease 0.2s both;
@@ -245,7 +247,7 @@ section {
 
 .hero-description {
     font-size: 18px;
-    color: var(--gray-color);
+    color: #cbd5e1;
     margin-bottom: 30px;
     max-width: 600px;
     animation: fadeInUp 1s ease 0.4s both;
@@ -379,7 +381,7 @@ section {
     font-weight: 700;
     text-align: center;
     margin-bottom: 60px;
-    color: var(--dark-color);
+    color: #ffffff;
     position: relative;
 }
 
@@ -439,13 +441,13 @@ section {
 
 .about-text h3 {
     font-size: 28px;
-    color: var(--dark-color);
+    color: #ffffff;
     margin-bottom: 20px;
 }
 
 .about-text p {
     font-size: 16px;
-    color: var(--gray-color);
+    color: #cbd5e1;
     margin-bottom: 15px;
     line-height: 1.8;
 }
@@ -513,7 +515,7 @@ section {
 
 .skill-card h3 {
     font-size: 22px;
-    color: var(--dark-color);
+    color: #ffffff;
     margin-bottom: 15px;
 }
 
@@ -573,11 +575,18 @@ section {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    overflow: hidden;
 }
 
 .project-image i {
     font-size: 80px;
     color: white;
+    transition: all 0.3s ease;
+}
+
+.project-card:hover .project-image i {
+    transform: scale(1.2) rotate(5deg);
 }
 
 .project-content {
@@ -586,12 +595,12 @@ section {
 
 .project-content h3 {
     font-size: 22px;
-    color: var(--dark-color);
+    color: #ffffff;
     margin-bottom: 10px;
 }
 
 .project-content p {
-    color: var(--gray-color);
+    color: #cbd5e1;
     margin-bottom: 15px;
     font-size: 15px;
 }
@@ -643,12 +652,12 @@ section {
 
 .contact-info h3 {
     font-size: 32px;
-    color: var(--dark-color);
+    color: #ffffff;
     margin-bottom: 20px;
 }
 
 .contact-info p {
-    color: var(--gray-color);
+    color: #cbd5e1;
     margin-bottom: 30px;
     font-size: 16px;
 }
@@ -679,12 +688,12 @@ section {
 
 .contact-item h4 {
     font-size: 16px;
-    color: var(--dark-color);
+    color: #ffffff;
     margin-bottom: 5px;
 }
 
 .contact-item p {
-    color: var(--gray-color);
+    color: #cbd5e1;
     margin: 0;
 }
 
@@ -710,12 +719,19 @@ section {
     font-size: 16px;
     font-family: inherit;
     transition: border-color 0.3s ease;
+    background: rgba(10, 14, 26, 0.6);
+    color: #ffffff;
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
     outline: none;
     border-color: var(--primary-color);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: rgba(255, 255, 255, 0.4);
 }
 
 .form-group textarea {
@@ -765,11 +781,13 @@ section {
         left: -100%;
         top: 70px;
         flex-direction: column;
-        background-color: white;
+        background-color: rgba(10, 14, 26, 0.98);
+        backdrop-filter: blur(10px);
+        border-top: 1px solid rgba(99, 102, 241, 0.2);
         width: 100%;
         text-align: center;
         transition: 0.3s;
-        box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 10px 27px rgba(0, 0, 0, 0.5);
         padding: 20px 0;
     }
 
