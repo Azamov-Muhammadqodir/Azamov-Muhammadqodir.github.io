@@ -149,20 +149,136 @@ function updateActiveNav() {
 
 window.addEventListener('scroll', updateActiveNav);
 
-// ===== Form Submission =====
+// ===== Form Submission with Telegram Bot =====
 const contactForm = document.querySelector('.contact-form');
 
-contactForm.addEventListener('submit', (e) => {
+contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     
     // Get form data
-    const formData = new FormData(contactForm);
+    const formInputs = contactForm.querySelectorAll('input, textarea');
+    const name = formInputs[0].value;
+    const email = formInputs[1].value;
+    const subject = formInputs[2].value;
+    const message = formInputs[3].value;
     
-    // Show success message
-    alert('Xabaringiz muvaffaqiyatli yuborildi! Tez orada siz bilan bog\'lanamiz.');
+    // Telegram Bot Configuration
+    const TELEGRAM_BOT_TOKEN = '5112077016:AAEdoRqCXob8zhMb84v_G_rs23xPNBkKMDE';
+    const TELEGRAM_CHAT_ID = '5213009659';
     
-    // Reset form
-    contactForm.reset();
+    // Format message for Telegram
+    const telegramMessage = `
+🔔 <b>Yangi Xabar - Portfolio</b>
+
+👤 <b>Ism:</b> ${name}
+📧 <b>Email:</b> ${email}
+📌 <b>Mavzu:</b> ${subject || 'Mavzu ko\'rsatilmagan'}
+
+💬 <b>Xabar:</b>
+${message}
+
+⏰ <b>Vaqt:</b> ${new Date().toLocaleString('uz-UZ')}
+    `.trim();
+    
+    // Show loading state
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Yuborilmoqda...';
+    submitBtn.disabled = true;
+    
+    try {
+        // Send message to Telegram
+        const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                chat_id: TELEGRAM_CHAT_ID,
+                text: telegramMessage,
+                parse_mode: 'HTML'
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.ok) {
+            // Show success message with animation
+            const successAlert = document.createElement('div');
+            successAlert.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) scale(0);
+                background: linear-gradient(135deg, #10b981, #059669);
+                color: white;
+                padding: 30px 50px;
+                border-radius: 15px;
+                box-shadow: 0 20px 60px rgba(16, 185, 129, 0.4);
+                z-index: 10000;
+                text-align: center;
+                animation: successPop 0.5s ease-out forwards;
+            `;
+            successAlert.innerHTML = `
+                <i class="fas fa-check-circle" style="font-size: 48px; margin-bottom: 15px;"></i>
+                <h3 style="margin: 10px 0;">Muvaffaqiyatli!</h3>
+                <p style="margin: 0;">Xabaringiz yuborildi. Tez orada siz bilan bog'lanamiz.</p>
+            `;
+            document.body.appendChild(successAlert);
+            
+            // Add animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes successPop {
+                    0% { transform: translate(-50%, -50%) scale(0); }
+                    50% { transform: translate(-50%, -50%) scale(1.1); }
+                    100% { transform: translate(-50%, -50%) scale(1); }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Remove alert after 3 seconds
+            setTimeout(() => {
+                successAlert.style.animation = 'successPop 0.3s ease-in reverse forwards';
+                setTimeout(() => successAlert.remove(), 300);
+            }, 3000);
+            
+            // Reset form
+            contactForm.reset();
+        } else {
+            throw new Error('Telegram API xatosi');
+        }
+    } catch (error) {
+        console.error('Xato:', error);
+        
+        // Show error message
+        const errorAlert = document.createElement('div');
+        errorAlert.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 30px 50px;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(239, 68, 68, 0.4);
+            z-index: 10000;
+            text-align: center;
+        `;
+        errorAlert.innerHTML = `
+            <i class="fas fa-exclamation-circle" style="font-size: 48px; margin-bottom: 15px;"></i>
+            <h3 style="margin: 10px 0;">Xatolik!</h3>
+            <p style="margin: 0;">Xabar yuborishda xatolik yuz berdi. Iltimos, qayta urinib ko'ring.</p>
+        `;
+        document.body.appendChild(errorAlert);
+        
+        setTimeout(() => errorAlert.remove(), 3000);
+    } finally {
+        // Restore button state
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+    }
 });
 
 // ===== Scroll to Top Button (Optional) =====
@@ -268,9 +384,10 @@ const createCursorEffect = () => {
 // createCursorEffect();
 
 // ===== Project Card Tilt Effect =====
-const projectCards = document.querySelectorAll('.project-card');
+{
+    const projectCards = document.querySelectorAll('.project-card');
 
-projectCards.forEach(card => {
+    projectCards.forEach(card => {
     card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
@@ -288,7 +405,8 @@ projectCards.forEach(card => {
     card.addEventListener('mouseleave', () => {
         card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
     });
-});
+    });
+}
 
 // ===== Snow Effect =====
 function createSnowflake() {
@@ -314,6 +432,255 @@ setInterval(createSnowflake, 200);
 for (let i = 0; i < 50; i++) {
     setTimeout(createSnowflake, i * 100);
 }
+
+// ===== Mobile Touch Interactions =====
+let touchStartX = 0;
+let touchStartY = 0;
+let touchEndX = 0;
+let touchEndY = 0;
+
+// Swipe gesture detection
+document.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+}, false);
+
+document.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    touchEndY = e.changedTouches[0].screenY;
+    handleSwipe();
+}, false);
+
+function handleSwipe() {
+    const swipeThreshold = 50;
+    const diffX = touchEndX - touchStartX;
+    const diffY = touchEndY - touchStartY;
+    
+    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > swipeThreshold) {
+        if (diffX > 0) {
+            console.log('Swipe Right');
+        } else {
+            console.log('Swipe Left');
+        }
+    }
+}
+
+// Parallax effect on mobile
+if (window.innerWidth <= 768) {
+    window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY;
+        const parallaxElements = document.querySelectorAll('.hero-image, .image-placeholder');
+        
+        parallaxElements.forEach(element => {
+            if (element) {
+                const speed = 0.3;
+                element.style.transform = `translateY(${scrolled * speed}px)`;
+            }
+        });
+    });
+}
+
+// Vibration feedback for touch interactions (if supported)
+function vibrateOnTouch(element) {
+    if ('vibrate' in navigator) {
+        element.addEventListener('touchstart', () => {
+            navigator.vibrate(10);
+        });
+    }
+}
+
+// Add vibration to buttons and cards
+document.querySelectorAll('.btn, .project-card, .skill-card').forEach(element => {
+    vibrateOnTouch(element);
+});
+
+// Pull-to-refresh indicator
+let pullStartY = 0;
+let isPulling = false;
+
+window.addEventListener('touchstart', (e) => {
+    if (window.scrollY === 0) {
+        pullStartY = e.touches[0].clientY;
+        isPulling = true;
+    }
+}, { passive: true });
+
+window.addEventListener('touchmove', (e) => {
+    if (isPulling && window.scrollY === 0) {
+        const pullDistance = e.touches[0].clientY - pullStartY;
+        if (pullDistance > 100) {
+            // Show refresh indicator
+            document.body.style.transform = `translateY(${Math.min(pullDistance - 100, 50)}px)`;
+        }
+    }
+}, { passive: true });
+
+window.addEventListener('touchend', () => {
+    if (isPulling) {
+        document.body.style.transform = 'translateY(0)';
+        document.body.style.transition = 'transform 0.3s ease';
+        setTimeout(() => {
+            document.body.style.transition = '';
+        }, 300);
+        isPulling = false;
+    }
+});
+
+// Smooth counter animation for stats on scroll
+const animateCounter = (element, target) => {
+    let current = 0;
+    const increment = target / 50;
+    const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+            element.textContent = target;
+            clearInterval(timer);
+        } else {
+            element.textContent = Math.floor(current);
+        }
+    }, 30);
+};
+
+// Intersection Observer for counters
+{
+    const observerOptions = {
+        threshold: 0.5,
+        rootMargin: '0px'
+    };
+
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
+                entry.target.classList.add('counted');
+                const target = parseInt(entry.target.textContent);
+                if (!isNaN(target)) {
+                    animateCounter(entry.target, target);
+                }
+            }
+        });
+    }, observerOptions);
+
+    // Observe stat boxes
+    document.querySelectorAll('.stat-box h4, .metric-value').forEach(stat => {
+        counterObserver.observe(stat);
+    });
+}
+
+// Card shake on long press
+let longPressTimer;
+document.querySelectorAll('.project-card, .skill-card').forEach(card => {
+    card.addEventListener('touchstart', () => {
+        longPressTimer = setTimeout(() => {
+            card.style.animation = 'shake 0.5s';
+            if ('vibrate' in navigator) {
+                navigator.vibrate([50, 100, 50]);
+            }
+            setTimeout(() => {
+                card.style.animation = '';
+            }, 500);
+        }, 800);
+    });
+    
+    card.addEventListener('touchend', () => {
+        clearTimeout(longPressTimer);
+    });
+});
+
+// Shake animation
+const shakeStyle = document.createElement('style');
+shakeStyle.textContent = `
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-10px); }
+        75% { transform: translateX(10px); }
+    }
+`;
+document.head.appendChild(shakeStyle);
+
+// Mobile menu smooth toggle
+const mobileMenuToggle = () => {
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    if (hamburger && navMenu) {
+        hamburger.addEventListener('click', () => {
+            navMenu.style.transition = 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+        });
+    }
+};
+
+mobileMenuToggle();
+
+// Scroll progress indicator
+const createScrollIndicator = () => {
+    const indicator = document.createElement('div');
+    indicator.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #4338ca, #6d28d9);
+        z-index: 10001;
+        transition: width 0.1s ease;
+        box-shadow: 0 0 10px rgba(67, 56, 202, 0.8);
+    `;
+    document.body.appendChild(indicator);
+    
+    window.addEventListener('scroll', () => {
+        const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+        indicator.style.width = scrollPercentage + '%';
+    });
+};
+
+if (window.innerWidth <= 768) {
+    createScrollIndicator();
+}
+
+// Touch ripple effect
+const createTouchRipple = (e) => {
+    const ripple = document.createElement('div');
+    const rect = e.currentTarget.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    const x = e.touches[0].clientX - rect.left - size / 2;
+    const y = e.touches[0].clientY - rect.top - size / 2;
+    
+    ripple.style.cssText = `
+        position: absolute;
+        width: ${size}px;
+        height: ${size}px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.5);
+        left: ${x}px;
+        top: ${y}px;
+        pointer-events: none;
+        animation: ripple 0.6s ease-out;
+    `;
+    
+    e.currentTarget.style.position = 'relative';
+    e.currentTarget.style.overflow = 'hidden';
+    e.currentTarget.appendChild(ripple);
+    
+    setTimeout(() => ripple.remove(), 600);
+};
+
+const rippleStyle = document.createElement('style');
+rippleStyle.textContent = `
+    @keyframes ripple {
+        0% {
+            transform: scale(0);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(2);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(rippleStyle);
+
+document.querySelectorAll('.btn, .tab-btn, .suggestion-btn').forEach(element => {
+    element.addEventListener('touchstart', createTouchRipple);
+});
 
 // ===== Console Message =====
 console.log('%c❄️ Salom, dasturchi!', 'font-size: 20px; color: #4338ca; font-weight: bold;');

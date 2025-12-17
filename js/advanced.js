@@ -1,5 +1,135 @@
 // ===== Advanced Portfolio JavaScript =====
 
+// ===== Mobile Scroll Water Effect for Architecture Nodes =====
+document.addEventListener('DOMContentLoaded', () => {
+    const archNodesAll = document.querySelectorAll('.arch-node');
+    
+    // Initially make all nodes visible for desktop and immediate mobile view
+    archNodesAll.forEach(node => {
+        node.classList.add('visible');
+    });
+    
+    // Only apply scroll animation on mobile
+    if (window.innerWidth <= 768) {
+        // Add water-animate class and remove visible to prepare for scroll animation
+        archNodesAll.forEach(node => {
+            node.classList.add('water-animate');
+            node.classList.remove('visible');
+        });
+        
+        const waterEffectObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && entry.target.classList.contains('water-animate') && !entry.target.classList.contains('visible')) {
+                    entry.target.classList.add('visible');
+                    
+                    // Add water ripple effect
+                    const ripple = document.createElement('div');
+                    ripple.style.cssText = `
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        top: 0;
+                        left: 0;
+                        background: radial-gradient(circle, rgba(67, 56, 202, 0.4) 0%, transparent 70%);
+                        animation: rippleExpand 2s ease-out forwards;
+                        pointer-events: none;
+                        z-index: -1;
+                    `;
+                    entry.target.appendChild(ripple);
+                    
+                    setTimeout(() => ripple.remove(), 2000);
+                }
+            });
+        }, {
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        });
+        
+        archNodesAll.forEach(node => {
+            waterEffectObserver.observe(node);
+        });
+        
+        // Add ripple animation
+        if (!document.getElementById('rippleAnimation')) {
+            const rippleStyle = document.createElement('style');
+            rippleStyle.id = 'rippleAnimation';
+            rippleStyle.textContent = `
+                @keyframes rippleExpand {
+                    0% {
+                        transform: scale(0);
+                        opacity: 1;
+                    }
+                    100% {
+                        transform: scale(3);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(rippleStyle);
+        }
+        
+        // Floating particles effect on architecture section
+        const architectureSection = document.querySelector('.architecture');
+        
+        if (architectureSection) {
+            const createParticle = () => {
+                const particle = document.createElement('div');
+                particle.style.cssText = `
+                    position: absolute;
+                    width: 4px;
+                    height: 4px;
+                    background: rgba(67, 56, 202, 0.6);
+                    border-radius: 50%;
+                    bottom: 0;
+                    left: ${Math.random() * 100}%;
+                    animation: floatUp ${3 + Math.random() * 3}s ease-out forwards;
+                    pointer-events: none;
+                    box-shadow: 0 0 10px rgba(67, 56, 202, 0.8);
+                `;
+                
+                architectureSection.style.position = 'relative';
+                architectureSection.appendChild(particle);
+                
+                setTimeout(() => particle.remove(), 6000);
+            };
+            
+            // Create particles on scroll
+            let lastScroll = 0;
+            window.addEventListener('scroll', () => {
+                const currentScroll = window.scrollY;
+                const archRect = architectureSection.getBoundingClientRect();
+                
+                if (archRect.top < window.innerHeight && archRect.bottom > 0) {
+                    if (Math.abs(currentScroll - lastScroll) > 50) {
+                        for (let i = 0; i < 3; i++) {
+                            setTimeout(() => createParticle(), i * 100);
+                        }
+                        lastScroll = currentScroll;
+                    }
+                }
+            });
+            
+            if (!document.getElementById('floatAnimation')) {
+                const floatStyle = document.createElement('style');
+                floatStyle.id = 'floatAnimation';
+                floatStyle.textContent = `
+                    @keyframes floatUp {
+                        0% {
+                            transform: translateY(0) scale(1);
+                            opacity: 1;
+                        }
+                        100% {
+                            transform: translateY(-200px) scale(0);
+                            opacity: 0;
+                        }
+                    }
+                `;
+                document.head.appendChild(floatStyle);
+            }
+        }
+    }
+});
+
 // ===== Architecture System Diagram =====
 const archNodes = document.querySelectorAll('.arch-node');
 const infoCards = document.querySelectorAll('.info-card');
@@ -23,10 +153,11 @@ archNodes.forEach(node => {
 });
 
 // ===== Project Tabs Filter =====
-const tabButtons = document.querySelectorAll('.tab-btn');
-const projectCards = document.querySelectorAll('.project-card.advanced');
+{
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const projectCards = document.querySelectorAll('.project-card.advanced');
 
-tabButtons.forEach(btn => {
+    tabButtons.forEach(btn => {
     btn.addEventListener('click', () => {
         const filter = btn.getAttribute('data-tab');
         
@@ -63,7 +194,8 @@ tabButtons.forEach(btn => {
             }, 200);
         });
     });
-});
+    });
+}
 
 // ===== AI Chat Assistant =====
 const chatInput = document.getElementById('chatInput');
@@ -389,29 +521,31 @@ setInterval(() => {
 }, 3000);
 
 // ===== Animate metrics on scroll =====
-const observerOptions = {
-    threshold: 0.5,
-    rootMargin: '0px'
-};
+{
+    const observerOptions = {
+        threshold: 0.5,
+        rootMargin: '0px'
+    };
 
-const metricsObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const metrics = entry.target.querySelectorAll('.metric-fill');
-            metrics.forEach(metric => {
-                const width = metric.style.width;
-                metric.style.width = '0%';
-                setTimeout(() => {
-                    metric.style.width = width;
-                }, 100);
-            });
-        }
-    });
-}, observerOptions);
+    const metricsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const metrics = entry.target.querySelectorAll('.metric-fill');
+                metrics.forEach(metric => {
+                    const width = metric.style.width;
+                    metric.style.width = '0%';
+                    setTimeout(() => {
+                        metric.style.width = width;
+                    }, 100);
+                });
+            }
+        });
+    }, observerOptions);
 
-const performancePanel = document.getElementById('performance');
-if (performancePanel) {
-    metricsObserver.observe(performancePanel);
+    const performancePanel = document.getElementById('performance');
+    if (performancePanel) {
+        metricsObserver.observe(performancePanel);
+    }
 }
 
 // ===== Demo Functions =====
@@ -435,7 +569,7 @@ console.log('   • 99.9% uptime achieved');
 console.log('   • 10+ production projects');
 console.log('   • 5+ years experience');
 console.log('%c\n💡 Interested in working together?', 'font-size: 13px; font-weight: bold; color: #10b981;');
-console.log('   📧 Email: info@portfolio.uz');
+console.log('   📧 Email: direct@mazamov.me');
 console.log('   💬 Try AI Chat on the website!');
 console.log('%c\n⚠️  Note: This portfolio is open source!', 'font-size: 11px; color: #f59e0b;');
 console.log('%c━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n', 'color: #6366f1;');

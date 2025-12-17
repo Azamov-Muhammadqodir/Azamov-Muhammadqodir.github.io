@@ -862,9 +862,252 @@ section {
     }
 }
 
+/* ===== Mobile Touch & Animations ===== */
+@media (max-width: 768px) {
+    /* Smooth scroll behavior */
+    html {
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Card tap animations */
+    .skill-card,
+    .project-card,
+    .stat-box {
+        transform-style: preserve-3d;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .skill-card:active,
+    .project-card:active,
+    .stat-box:active {
+        transform: scale(0.95) translateY(5px);
+        box-shadow: 0 5px 15px rgba(67, 56, 202, 0.4);
+    }
+
+    /* Button ripple effect */
+    .btn {
+        position: relative;
+        overflow: hidden;
+        transform: translateZ(0);
+    }
+
+    .btn::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+    }
+
+    .btn:active::before {
+        width: 300px;
+        height: 300px;
+    }
+
+    /* Floating animation for hero */
+    .hero-content {
+        animation: mobileFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes mobileFloat {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+
+    /* Slide in from sides */
+    .skill-card {
+        animation: slideInMobile 0.6s ease-out backwards;
+    }
+
+    .skill-card:nth-child(odd) {
+        animation-name: slideInLeft;
+    }
+
+    .skill-card:nth-child(even) {
+        animation-name: slideInRight;
+    }
+
+    @keyframes slideInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes slideInRight {
+        from {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    /* Project card flip effect */
+    .project-card {
+        perspective: 1000px;
+    }
+
+    .project-card:active .project-content {
+        transform: rotateX(5deg);
+    }
+
+    /* Pulsating social icons */
+    .social-icon {
+        animation: socialPulse 2s ease-in-out infinite;
+    }
+
+    .social-icon:nth-child(1) { animation-delay: 0s; }
+    .social-icon:nth-child(2) { animation-delay: 0.2s; }
+    .social-icon:nth-child(3) { animation-delay: 0.4s; }
+    .social-icon:nth-child(4) { animation-delay: 0.6s; }
+
+    @keyframes socialPulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+    }
+
+    /* Section title entrance */
+    .section-title {
+        animation: titleBounce 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    @keyframes titleBounce {
+        0% {
+            opacity: 0;
+            transform: scale(0.3) rotate(-10deg);
+        }
+        50% {
+            transform: scale(1.05) rotate(2deg);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1) rotate(0);
+        }
+    }
+
+    /* Image placeholder rotation */
+    .image-placeholder {
+        animation: spinGlow 4s linear infinite;
+    }
+
+    @keyframes spinGlow {
+        0% {
+            transform: rotate(0deg);
+            box-shadow: 0 0 20px rgba(67, 56, 202, 0.5);
+        }
+        50% {
+            box-shadow: 0 0 40px rgba(109, 40, 217, 0.8);
+        }
+        100% {
+            transform: rotate(360deg);
+            box-shadow: 0 0 20px rgba(67, 56, 202, 0.5);
+        }
+    }
+
+    /* Input focus animation */
+    .form-group input:focus,
+    .form-group textarea:focus {
+        transform: scale(1.02);
+        box-shadow: 0 0 20px rgba(67, 56, 202, 0.5);
+    }
+
+    /* Navbar slide in */
+    .navbar {
+        animation: navSlideDown 0.5s ease-out;
+    }
+
+    @keyframes navSlideDown {
+        from {
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    /* Tag bounce animation */
+    .tag {
+        animation: tagBounce 0.5s ease-out backwards;
+    }
+
+    .tag:nth-child(1) { animation-delay: 0.1s; }
+    .tag:nth-child(2) { animation-delay: 0.2s; }
+    .tag:nth-child(3) { animation-delay: 0.3s; }
+
+    @keyframes tagBounce {
+        0% {
+            opacity: 0;
+            transform: translateY(20px) scale(0.8);
+        }
+        60% {
+            transform: translateY(-5px) scale(1.05);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    /* Contact item slide in */
+    .contact-item {
+        animation: slideInBottom 0.6s ease-out backwards;
+    }
+
+    .contact-item:nth-child(1) { animation-delay: 0.1s; }
+    .contact-item:nth-child(2) { animation-delay: 0.2s; }
+    .contact-item:nth-child(3) { animation-delay: 0.3s; }
+
+    @keyframes slideInBottom {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Progress bar animation */
+    .skill-progress {
+        animation: progressGlow 2s ease-in-out infinite;
+    }
+
+    @keyframes progressGlow {
+        0%, 100% {
+            box-shadow: 0 0 5px rgba(67, 56, 202, 0.5);
+        }
+        50% {
+            box-shadow: 0 0 15px rgba(109, 40, 217, 0.8);
+        }
+    }
+}
+
 @media (max-width: 480px) {
     .hero-title {
         font-size: 28px;
+        animation: titleWave 2s ease-in-out infinite;
+    }
+
+    @keyframes titleWave {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        75% { transform: translateX(5px); }
     }
 
     .hero-subtitle {
@@ -883,5 +1126,10 @@ section {
 
     .image-frame i {
         font-size: 90px;
+    }
+
+    /* Mobile snow effect - less intensive */
+    .snowflake {
+        font-size: 0.8em;
     }
 }
