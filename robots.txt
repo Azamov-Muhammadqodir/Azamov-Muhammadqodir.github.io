@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://azamov-muhammadqodir.github.io/sitemap.xml
+Sitemap: https://mazamov.me/sitemap.xml
 
 # SEO Optimization for .NET Developer Portfolio
 # Muhammadqodir Azamov - Professional .NET Developer
