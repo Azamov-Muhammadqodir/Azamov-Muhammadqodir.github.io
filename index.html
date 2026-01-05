@@ -3,776 +3,817 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Dasturchi Portfolio - Professional Web Developer">
-    <title>Mening Portfoliom</title>
+    <meta name="description" content=".NET Developer - Muhammadqodir Azamov">
+    <title>Muhammadqodir Azamov - .NET Developer</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/advanced.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #fff;
+            perspective: 1000px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* 3D Background Animation Container */
+        .background-3d {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        /* Floating 3D Shapes */
+        .shape-3d {
+            position: absolute;
+            opacity: 0.6;
+            animation: float3DShape 20s infinite ease-in-out;
+            transform-style: preserve-3d;
+        }
+
+        .shape-3d.cube {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            animation: rotateCube 15s infinite linear, float3DShape 20s infinite ease-in-out;
+        }
+
+        .shape-3d.sphere {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.05));
+            border-radius: 50%;
+            animation: pulse3D 8s infinite ease-in-out, float3DShape 25s infinite ease-in-out;
+        }
+
+        .shape-3d.pyramid {
+            width: 0;
+            height: 0;
+            border-left: 40px solid transparent;
+            border-right: 40px solid transparent;
+            border-bottom: 70px solid rgba(255, 255, 255, 0.2);
+            animation: rotate3DPyramid 12s infinite linear, float3DShape 18s infinite ease-in-out;
+        }
+
+        .shape-3d.ring {
+            width: 100px;
+            height: 100px;
+            border: 15px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            animation: spin3D 10s infinite linear, float3DShape 22s infinite ease-in-out;
+        }
+
+        /* Particle System */
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: particleFloat 15s infinite ease-in-out;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Grid Lines */
+        .grid-3d {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s infinite linear;
+            transform-style: preserve-3d;
+        }
+
+        /* Animated Waves */
+        .wave-3d {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(255, 255, 255, 0.03) 50%, transparent 100%);
+            animation: waveMove 25s infinite linear;
+            transform-style: preserve-3d;
+        }
+
+        /* 3D Keyframe Animations */
+        @keyframes float3DShape {
+            0%, 100% {
+                transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg);
+            }
+            25% {
+                transform: translate3d(100px, -100px, 100px) rotateX(90deg) rotateY(90deg);
+            }
+            50% {
+                transform: translate3d(-50px, 100px, -50px) rotateX(180deg) rotateY(180deg);
+            }
+            75% {
+                transform: translate3d(-100px, -50px, 80px) rotateX(270deg) rotateY(270deg);
+            }
+        }
+
+        @keyframes rotateCube {
+            0% {
+                transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+            }
+            100% {
+                transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+            }
+        }
+
+        @keyframes pulse3D {
+            0%, 100% {
+                transform: scale(1) translateZ(0);
+                opacity: 0.6;
+            }
+            50% {
+                transform: scale(1.3) translateZ(50px);
+                opacity: 0.9;
+            }
+        }
+
+        @keyframes rotate3DPyramid {
+            0% {
+                transform: rotateY(0deg) rotateX(45deg);
+            }
+            100% {
+                transform: rotateY(360deg) rotateX(45deg);
+            }
+        }
+
+        @keyframes spin3D {
+            0% {
+                transform: rotateZ(0deg) rotateY(0deg);
+            }
+            100% {
+                transform: rotateZ(360deg) rotateY(360deg);
+            }
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translate3d(0, 100vh, 0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate3d(100px, -100vh, 100px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes gridMove {
+            0% {
+                transform: perspective(500px) rotateX(60deg) translateY(0);
+            }
+            100% {
+                transform: perspective(500px) rotateX(60deg) translateY(50px);
+            }
+        }
+
+        @keyframes waveMove {
+            0% {
+                transform: rotate(0deg) scale(1);
+            }
+            100% {
+                transform: rotate(360deg) scale(1.2);
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .avatar {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin: 0 auto 2rem;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: float3D 3s ease-in-out infinite, fadeIn 1s ease-in;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+        }
+
+        .avatar:hover {
+            transform: rotateY(360deg) scale(1.1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: slideIn3D 1s ease-out;
+            transform-style: preserve-3d;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-content h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: slideIn3D 1.2s ease-out;
+            transform-style: preserve-3d;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            line-height: 1.6;
+        }
+
+        .section {
+            padding: 80px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            margin: 40px 0;
+            border-radius: 20px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .tech-category {
+            margin-bottom: 3rem;
+        }
+
+        .tech-category h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .tech-item {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.4s ease;
+            transform-style: preserve-3d;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .tech-item:hover {
+            transform: translateY(-15px) translateZ(30px) rotateX(5deg);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .tech-item i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .tech-item img {
+            margin-bottom: 15px;
+        }
+
+        .tech-item span {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 30px;
+            border-radius: 15px;
+            transition: all 0.4s ease;
+            transform-style: preserve-3d;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-card:hover {
+            transform: scale(1.05) translateZ(40px) rotateY(5deg);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .project-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .project-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .project-card p {
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .project-link {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+
+        .project-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .social-icon {
+            color: #fff;
+            font-size: 2rem;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            opacity: 1;
+            display: inline-block;
+            transform-style: preserve-3d;
+        }
+
+        .social-icon i {
+            display: block;
+        }
+
+        .social-icon:hover {
+            transform: translateZ(20px) scale(1.2) rotateY(360deg);
+            text-decoration: none;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 2rem;
+        }
+
+        .contact-card {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 40px 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.4s ease;
+            transform-style: preserve-3d;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .contact-card:hover {
+            transform: translateY(-15px) translateZ(30px) rotateX(5deg);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .contact-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            animation: float3D 3s ease-in-out infinite;
+        }
+
+        .contact-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .contact-card p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .contact-link {
+            display: inline-block;
+            color: #fff;
+            text-decoration: none;
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+
+        .contact-link:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: translateZ(10px) scale(1.05);
+            text-decoration: none;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .form-group label i {
+            margin-right: 8px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px) translateZ(10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .form-status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+
+        .form-status.success {
+            background: rgba(76, 175, 80, 0.3);
+            border: 2px solid rgba(76, 175, 80, 0.5);
+            display: block;
+        }
+
+        .form-status.error {
+            background: rgba(244, 67, 54, 0.3);
+            border: 2px solid rgba(244, 67, 54, 0.5);
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float3D {
+            0%, 100% {
+                transform: translateY(0) rotateX(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotateX(5deg);
+            }
+        }
+
+        @keyframes slideIn3D {
+            from {
+                opacity: 0;
+                transform: translateZ(-100px) translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateZ(0) translateY(0);
+            }
+        }
+
+        @keyframes rotate3D {
+            from {
+                transform: rotateY(0deg);
+            }
+            to {
+                transform: rotateY(360deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .hero-content h2 {
+                font-size: 1.5rem;
+            }
+
+            .projects-grid, .tech-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="nav-brand">
-                <h2>&lt;MQ /&gt;</h2>
-            </div>
-            <ul class="nav-menu">
-                <li><a href="#home" class="nav-link">Bosh sahifa</a></li>
-                <li><a href="#architecture" class="nav-link">Architecture</a></li>
-                <li><a href="#skills" class="nav-link">Ko'nikmalar</a></li>
-                <li><a href="#projects" class="nav-link">Live Projects</a></li>
-                <li><a href="#chat" class="nav-link">AI Chat</a></li>
-                <li><a href="#monitor" class="nav-link">Monitor</a></li>
-                <li><a href="#contact" class="nav-link">Aloqa</a></li>
-            </ul>
-            <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-        </div>
-    </nav>
+    <!-- 3D Background Animation -->
+    <div class="background-3d">
+        <!-- Animated Grid -->
+        <div class="grid-3d"></div>
+        
+        <!-- Waves -->
+        <div class="wave-3d" style="top: -50%; left: -50%;"></div>
+        <div class="wave-3d" style="top: 0; right: -50%; animation-delay: -10s;"></div>
+        
+        <!-- 3D Shapes -->
+        <div class="shape-3d cube" style="top: 10%; left: 10%; animation-delay: 0s;"></div>
+        <div class="shape-3d sphere" style="top: 20%; right: 15%; animation-delay: -3s;"></div>
+        <div class="shape-3d pyramid" style="top: 60%; left: 20%; animation-delay: -6s;"></div>
+        <div class="shape-3d ring" style="top: 70%; right: 10%; animation-delay: -9s;"></div>
+        <div class="shape-3d cube" style="top: 40%; left: 80%; animation-delay: -12s;"></div>
+        <div class="shape-3d sphere" style="top: 80%; left: 60%; animation-delay: -15s;"></div>
+        <div class="shape-3d pyramid" style="top: 30%; right: 40%; animation-delay: -18s;"></div>
+        <div class="shape-3d ring" style="top: 50%; left: 50%; animation-delay: -5s;"></div>
+    </div>
+
+    <!-- Particles -->
+    <script>
+        // Create particles
+        const particlesContainer = document.querySelector('.background-3d');
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            particlesContainer.appendChild(particle);
+        }
+    </script>
 
     <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1 class="hero-title">
-                Salom, Men <span class="highlight">Muhammadqodir</span>
-            </h1>
-            <h2 class="hero-subtitle">
-                <span class="typing-text"></span>
-            </h2>
-            <p class="hero-description">
-                Zamonaviy web ilovalar va dasturiy ta'minot yaratishga ishtiyoqli dasturchi
-            </p>
-            <div class="hero-buttons">
-                <a href="#projects" class="btn btn-primary">Loyihalar</a>
-                <a href="#contact" class="btn btn-secondary">Bog'lanish</a>
-            </div>
-            <div class="social-links">
-                <a href="https://github.com/Azamov-Muhammadqodir" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-github"></i></a>
-                <a href="https://www.linkedin.com/in/azamov-muhammadqodir/" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-linkedin"></i></a>
-                <a href="https://t.me/AzamovMuhammadqodir" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-telegram"></i></a>
-                <a href="https://www.instagram.com/azamov.muhammadqodir/" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-instagram"></i></a>
-            </div>
-        </div>
-        <div class="hero-image">
-            <div class="image-placeholder">
-                <i class="fas fa-code"></i>
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="avatar">
+                    <img src="images/profile.jpg" alt="Muhammadqodir Azamov">
+                </div>
+                <h1>Muhammadqodir Azamov</h1>
+                <h2>.NET Developer</h2>
+                <p>
+                    Bir nechta web va desktop loyihalar ishlab chiqqanman.
+                </p>
+                <div class="social-links">
+                    <a href="https://github.com/Azamov-Muhammadqodir" target="_blank" rel="noopener noreferrer" class="social-icon">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/azamov-muhammadqodir/" target="_blank" rel="noopener noreferrer" class="social-icon">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://t.me/AzamovMuhammadqodir" target="_blank" rel="noopener noreferrer" class="social-icon">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                    <a href="https://www.instagram.com/azamov.muhammadqodir/" target="_blank" rel="noopener noreferrer" class="social-icon">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- System Architecture Section -->
-    <section id="architecture" class="architecture">
+    <!-- Technologies Section -->
+    <!-- <section class="section">
         <div class="container">
-            <h2 class="section-title">System Architecture</h2>
-            <p class="section-subtitle">Men faqat kod yozmayman, SYSTEM o'ylayman</p>
+            <h2 class="section-title">Texnologiyalar</h2>
             
-            <div class="architecture-diagram">
-                <div class="arch-node" data-node="frontend">
-                    <div class="node-icon">
-                        <i class="fab fa-react"></i>
+            <div class="tech-category">
+                <h3><i class="fas fa-globe"></i> Web Development</h3>
+                <div class="tech-grid">
+                    <div class="tech-item">
+                        <i class="fas fa-code"></i>
+                        <span>ASP.NET Core</span>
                     </div>
-                    <h3>Frontend</h3>
-                    <p>Next.js, React</p>
-                    <div class="node-details">
-                        <div class="metric">
-                            <span class="metric-value">95</span>
-                            <span class="metric-label">Performance</span>
-                        </div>
+                    <div class="tech-item">
+                        <i class="fas fa-fire"></i>
+                        <span>Blazor</span>
                     </div>
-                </div>
-
-                <div class="arch-connector"></div>
-
-                <div class="arch-node" data-node="backend">
-                    <div class="node-icon">
-                        <i class="fas fa-server"></i>
-                    </div>
-                    <h3>Backend</h3>
-                    <p>.NET Core, ASP.NET</p>
-                    <div class="node-details">
-                        <div class="metric">
-                            <span class="metric-value">10k+</span>
-                            <span class="metric-label">Requests/sec</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="arch-connector"></div>
-
-                <div class="arch-node" data-node="database">
-                    <div class="node-icon">
-                        <i class="fas fa-database"></i>
-                    </div>
-                    <h3>Database</h3>
-                    <p>PostgreSQL, Redis</p>
-                    <div class="node-details">
-                        <div class="metric">
-                            <span class="metric-value">&lt;50ms</span>
-                            <span class="metric-label">Query Time</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="arch-connector"></div>
-
-                <div class="arch-node" data-node="ai">
-                    <div class="node-icon">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <h3>AI/ML</h3>
-                    <p>Face Recognition, NLP</p>
-                    <div class="node-details">
-                        <div class="metric">
-                            <span class="metric-value">98%</span>
-                            <span class="metric-label">Accuracy</span>
-                        </div>
+                    <div class="tech-item">
+                        <svg style="width: 48px; height: 48px; margin-bottom: 15px;" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M11.572 0c-.176 0-.31.001-.358.007a19.76 19.76 0 0 1-.364.033C7.443.346 4.25 2.185 2.228 5.012a11.875 11.875 0 0 0-2.119 5.243c-.096.659-.108.854-.108 1.747s.012 1.089.108 1.748c.652 4.506 3.86 8.292 8.209 9.695.779.25 1.6.422 2.534.525.363.04 1.935.04 2.299 0 1.611-.178 2.977-.577 4.323-1.264.207-.106.247-.134.219-.158-.02-.013-.9-1.193-1.955-2.62l-1.919-2.592-2.404-3.558a338.739 338.739 0 0 0-2.422-3.556c-.009-.002-.018 1.579-.023 3.51-.007 3.38-.01 3.515-.052 3.595a.426.426 0 0 1-.206.214c-.075.037-.14.044-.495.044H7.81l-.108-.068a.438.438 0 0 1-.157-.171l-.05-.106.006-4.703.007-4.705.072-.092a.645.645 0 0 1 .174-.143c.096-.047.134-.051.54-.051.478 0 .558.018.682.154.035.038 1.337 1.999 2.895 4.361a10760.433 10760.433 0 0 0 4.735 7.17l1.9 2.879.096-.063a12.317 12.317 0 0 0 2.466-2.163 11.944 11.944 0 0 0 2.824-6.134c.096-.66.108-.854.108-1.748 0-.893-.012-1.088-.108-1.747-.652-4.506-3.859-8.292-8.208-9.695a12.597 12.597 0 0 0-2.499-.523A33.119 33.119 0 0 0 11.573 0zm4.069 7.217c.347 0 .408.005.486.047a.473.473 0 0 1 .237.277c.018.06.023 1.365.018 4.304l-.006 4.218-.744-1.14-.746-1.14v-3.066c0-1.982.01-3.097.023-3.15a.478.478 0 0 1 .233-.296c.096-.05.13-.054.5-.054z"/>
+                        </svg>
+                        <span>Next.js</span>
                     </div>
                 </div>
             </div>
 
-            <div class="architecture-info">
-                <div class="info-card active" data-info="frontend">
-                    <h4><i class="fab fa-react"></i> Frontend Layer</h4>
-                    <ul>
-                        <li><strong>Texnologiya:</strong> Next.js 14, React, TypeScript</li>
-                        <li><strong>Muammo:</strong> Slow initial load, SEO issues</li>
-                        <li><strong>Yechim:</strong> SSR, ISR, Image optimization</li>
-                        <li><strong>Natija:</strong> 95+ Lighthouse score, 40% tezroq yuklash</li>
-                    </ul>
-                </div>
-
-                <div class="info-card" data-info="backend">
-                    <h4><i class="fas fa-server"></i> Backend Layer</h4>
-                    <ul>
-                        <li><strong>Texnologiya:</strong> ASP.NET Core 8, Entity Framework</li>
-                        <li><strong>Muammo:</strong> 50k+ concurrent users, high latency</li>
-                        <li><strong>Yechim:</strong> Microservices, Load balancing, Caching</li>
-                        <li><strong>Natija:</strong> 10k+ req/sec, 99.9% uptime</li>
-                    </ul>
-                </div>
-
-                <div class="info-card" data-info="database">
-                    <h4><i class="fas fa-database"></i> Database Layer</h4>
-                    <ul>
-                        <li><strong>Texnologiya:</strong> PostgreSQL, Redis, ElasticSearch</li>
-                        <li><strong>Muammo:</strong> Slow queries, N+1 problem</li>
-                        <li><strong>Yechim:</strong> Indexing, Query optimization, Read replicas</li>
-                        <li><strong>Natija:</strong> <50ms query time, 80% kam load</li>
-                    </ul>
-                </div>
-
-                <div class="info-card" data-info="ai">
-                    <h4><i class="fas fa-brain"></i> AI/ML Layer</h4>
-                    <ul>
-                        <li><strong>Texnologiya:</strong> TensorFlow, OpenCV, Embeddings</li>
-                        <li><strong>Muammo:</strong> Real-time face recognition, accuracy</li>
-                        <li><strong>Yechim:</strong> Model optimization, GPU acceleration</li>
-                        <li><strong>Natija:</strong> 98% accuracy, 30fps processing</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <h2 class="section-title">Men Haqimda</h2>
-            <div class="about-content">
-                <div class="about-image">
-                    <div class="image-frame">
-                        <i class="fas fa-user-tie"></i>
+            <div class="tech-category">
+                <h3><i class="fas fa-desktop"></i> Desktop Development</h3>
+                <div class="tech-grid">
+                    <div class="tech-item">
+                        <i class="fas fa-window-maximize"></i>
+                        <span>WinForms</span>
                     </div>
-                </div>
-                <div class="about-text">
-                    <h3>System Architect & Full Stack Developer</h3>
-                    <p>
-                        Men oddiy kod yozuvchi emas, <strong>SYSTEM o'ylovchiman</strong>. 
-                        .NET Core, Next.js va AI texnologiyalaridan foydalanib, 
-                        <strong>million+ userlar uchun</strong> scalable va production-ready ilovalar yarataman.
-                    </p>
-                    <p>
-                        Har bir loyihada faqat "ishlaydi" emas, balki 
-                        <strong>"qanday scaling qilaman? Performance qanday? Security?"</strong> - bu savollar bilan yondashaman.
-                    </p>
-                    <div class="about-stats">
-                        <div class="stat-box">
-                            <h4>50k+</h4>
-                            <p>Concurrent Users</p>
-                        </div>
-                        <div class="stat-box">
-                            <h4>99.9%</h4>
-                            <p>Uptime</p>
-                        </div>
-                        <div class="stat-box">
-                            <h4>10+</h4>
-                            <p>Production Projects</p>
-                        </div>
-                        <div class="stat-box">
-                            <h4>5+</h4>
-                            <p>Yillik Tajriba</p>
-                        </div>
+                    <div class="tech-item">
+                        <svg style="width: 48px; height: 48px; margin-bottom: 15px;" viewBox="0 0 256 256" fill="currentColor">
+                            <path d="M128 0L256 73.14v109.72L128 256 0 182.86V73.14L128 0z"/>
+                            <path fill="rgba(255,255,255,0.3)" d="M128 25.6L230.4 85.33v85.34L128 230.4 25.6 170.67V85.33L128 25.6z"/>
+                        </svg>
+                        <span>Avalonia UI</span>
                     </div>
-                    <div class="about-info">
-                        <div class="info-item">
-                            <i class="fas fa-code"></i>
-                            <span>Specialization: System Design & Architecture</span>
-                        </div>
-                        <div class="info-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Manzil: Toshkent, O'zbekiston</span>
-                        </div>
-                        <div class="info-item">
-                            <i class="fas fa-envelope"></i>
-                            <span>Email: direct@mazamov.me</span>
-                        </div>
-                        <div class="info-item">
-                            <i class="fas fa-phone"></i>
-                            <span>Telefon: +998 93 698 02 09</span>
-                        </div>
-                    </div>
-                    <div class="about-actions">
-                        <a href="#" class="btn btn-primary">CV Yuklab olish</a>
-                        <a href="#chat" class="btn btn-secondary">AI Chat bilan gaplash</a>
+                    <div class="tech-item">
+                        <i class="fas fa-window-restore"></i>
+                        <span>WPF</span>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
-    <!-- Skills Section -->
-    <section id="skills" class="skills">
+    <!-- Projects Section -->
+    <section class="section">
         <div class="container">
-            <h2 class="section-title">Ko'nikmalar</h2>
-            <div class="skills-grid">
-                <div class="skill-card">
-                    <div class="skill-icon">
-                        <i class="fas fa-cube"></i>
+            <h2 class="section-title">Loyihalar</h2>
+            
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-icon">
+                        <i class="fas fa-user-shield"></i>
                     </div>
-                    <h3>.NET Core</h3>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-progress="92"></div>
+                    <h3>Face Recognition System</h3>
+                    <p>Real-time yuz tanish tizimi. AI/ML texnologiyalari yordamida yaratilgan.</p>
+                    <div class="project-tags">
+                        <span class="tag">.NET</span>
+                        <span class="tag">OpenCV</span>
+                        <span class="tag">AI/ML</span>
                     </div>
-                    <span class="skill-percent">92%</span>
+                    <div class="project-links">
+                        <a href="https://github.com/Azamov-Muhammadqodir" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                        <a href="#" class="project-link">
+                            <i class="fas fa-external-link-alt"></i> Demo
+                        </a>
+                    </div>
                 </div>
-                <div class="skill-card">
-                    <div class="skill-icon">
+
+                <div class="project-card">
+                    <div class="project-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>Web Loyihalar</h3>
+                    <p>ASP.NET Core, Blazor va Next.js texnologiyalari bilan yaratilgan professional web ilovalar.</p>
+                    <div class="project-tags">
+                        <span class="tag">ASP.NET</span>
+                        <span class="tag">Blazor</span>
+                        <span class="tag">Next.js</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/Azamov-Muhammadqodir" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-icon">
                         <i class="fas fa-desktop"></i>
                     </div>
-                    <h3>Desktop Apps</h3>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-progress="88"></div>
+                    <h3>Desktop Ilovalar</h3>
+                    <p>WinForms, Avalonia UI va WPF texnologiyalari bilan ishlab chiqilgan desktop dasturlar.</p>
+                    <div class="project-tags">
+                        <span class="tag">WinForms</span>
+                        <span class="tag">Avalonia</span>
+                        <span class="tag">WPF</span>
                     </div>
-                    <span class="skill-percent">88%</span>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon">
-                        <i class="fas fa-fire"></i>
-                    </div>
-                    <h3>Blazor</h3>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-progress="85"></div>
-                    </div>
-                    <span class="skill-percent">85%</span>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <h3>Mobile Dev</h3>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-progress="87"></div>
-                    </div>
-                    <span class="skill-percent">87%</span>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon">
-                        <i class="fas fa-fingerprint"></i>
-                    </div>
-                    <h3>Face ID & Biometrics</h3>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-progress="90"></div>
-                    </div>
-                    <span class="skill-percent">90%</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Live Projects Playground Section -->
-    <section id="projects" class="projects">
-        <div class="container">
-            <h2 class="section-title">Live Projects Playground</h2>
-            <p class="section-subtitle">Ishlaydigan mahsulotlar to'plami - har biri real muammolarni yechadi</p>
-            
-            <div class="projects-tabs">
-                <button class="tab-btn active" data-tab="all">Barchasi</button>
-                <button class="tab-btn" data-tab="dotnet">.NET Core</button>
-                <button class="tab-btn" data-tab="nextjs">Next.js</button>
-                <button class="tab-btn" data-tab="ai">AI/ML</button>
-            </div>
-
-            <div class="projects-grid">
-                <!-- Telegram Bot Simulator -->
-                <div class="project-card advanced" data-category="dotnet ai">
-                    <div class="project-header">
-                        <div class="project-status">
-                            <span class="status-badge production">Production</span>
-                            <span class="status-badge">50k+ users</span>
-                        </div>
-                    </div>
-                    <div class="project-image">
-                        <i class="fab fa-telegram"></i>
-                        <div class="demo-overlay">
-                            <button class="demo-btn">
-                                <i class="fas fa-play"></i> Try Live Demo
-                            </button>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3>Telegram Bot Platform</h3>
-                        
-                        <div class="problem-solution">
-                            <div class="problem">
-                                <h4><i class="fas fa-exclamation-triangle"></i> Problem</h4>
-                                <p>50k concurrent users, bot latency 5-10 sec</p>
-                            </div>
-                            <div class="solution">
-                                <h4><i class="fas fa-lightbulb"></i> Solution</h4>
-                                <p>Queue system, Worker services, Redis caching</p>
-                            </div>
-                        </div>
-
-                        <div class="project-metrics">
-                            <div class="metric">
-                                <span class="value">300ms</span>
-                                <span class="label">Response time</span>
-                            </div>
-                            <div class="metric">
-                                <span class="value">99.9%</span>
-                                <span class="label">Uptime</span>
-                            </div>
-                            <div class="metric">
-                                <span class="value">100k+</span>
-                                <span class="label">Daily messages</span>
-                            </div>
-                        </div>
-
-                        <div class="project-tags">
-                            <span class="tag">.NET Core</span>
-                            <span class="tag">Hangfire</span>
-                            <span class="tag">Redis</span>
-                            <span class="tag">PostgreSQL</span>
-                        </div>
-
-                        <div class="project-decision">
-                            <strong>Architecture Decision:</strong>
-                            <p>"If users = 1M?" → Microservices + Message broker + Horizontal scaling</p>
-                        </div>
-
-                        <div class="project-links">
-                            <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
-                            <a href="#" class="project-link"><i class="fas fa-chart-line"></i> Metrics</a>
-                            <a href="#" class="project-link"><i class="fas fa-play-circle"></i> Live Demo</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Face Recognition Demo -->
-                <div class="project-card advanced" data-category="ai nextjs">
-                    <div class="project-header">
-                        <div class="project-status">
-                            <span class="status-badge demo">Live Demo</span>
-                            <span class="status-badge">98% accuracy</span>
-                        </div>
-                    </div>
-                    <div class="project-image">
-                        <i class="fas fa-face-smile"></i>
-                        <div class="demo-overlay">
-                            <button class="demo-btn" onclick="openFaceRecognition()">
-                                <i class="fas fa-camera"></i> Open Camera
-                            </button>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3>Real-time Face Recognition</h3>
-                        
-                        <div class="problem-solution">
-                            <div class="problem">
-                                <h4><i class="fas fa-exclamation-triangle"></i> Problem</h4>
-                                <p>Real-time processing, low accuracy, high latency</p>
-                            </div>
-                            <div class="solution">
-                                <h4><i class="fas fa-lightbulb"></i> Solution</h4>
-                                <p>WebRTC, TensorFlow.js, Model optimization</p>
-                            </div>
-                        </div>
-
-                        <div class="project-metrics">
-                            <div class="metric">
-                                <span class="value">30fps</span>
-                                <span class="label">Processing</span>
-                            </div>
-                            <div class="metric">
-                                <span class="value">98%</span>
-                                <span class="label">Accuracy</span>
-                            </div>
-                            <div class="metric">
-                                <span class="value">&lt;100ms</span>
-                                <span class="label">Detection time</span>
-                            </div>
-                        </div>
-
-                        <div class="project-tags">
-                            <span class="tag">Next.js</span>
-                            <span class="tag">TensorFlow</span>
-                            <span class="tag">OpenCV</span>
-                            <span class="tag">WebRTC</span>
-                        </div>
-
-                        <div class="project-decision">
-                            <strong>Technical Trade-off:</strong>
-                            <p>Client-side vs Server-side? → Client (privacy + low latency)</p>
-                        </div>
-
-                        <div class="project-links">
-                            <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
-                            <a href="#" class="project-link"><i class="fas fa-brain"></i> Model Info</a>
-                            <a href="#" class="project-link"><i class="fas fa-play-circle"></i> Try Now</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- E-commerce Marketplace -->
-                <div class="project-card advanced" data-category="dotnet nextjs">
-                    <div class="project-header">
-                        <div class="project-status">
-                            <span class="status-badge production">Production</span>
-                            <span class="status-badge">10k+ products</span>
-                        </div>
-                    </div>
-                    <div class="project-image">
-                        <i class="fas fa-shopping-cart"></i>
-                        <div class="demo-overlay">
-                            <button class="demo-btn">
-                                <i class="fas fa-store"></i> View Store
-                            </button>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3>Scalable Marketplace Platform</h3>
-                        
-                        <div class="problem-solution">
-                            <div class="problem">
-                                <h4><i class="fas fa-exclamation-triangle"></i> Problem</h4>
-                                <p>Black Friday: 50k concurrent users, site crashed</p>
-                            </div>
-                            <div class="solution">
-                                <h4><i class="fas fa-lightbulb"></i> Solution</h4>
-                                <p>CDN, Load balancer, Database sharding, Queue system</p>
-                            </div>
-                        </div>
-
-                        <div class="project-metrics">
-                            <div class="metric">
-                                <span class="value">500ms</span>
-                                <span class="label">Page load</span>
-                            </div>
-                            <div class="metric">
-                                <span class="value">10k+</span>
-                                <span class="label">Products</span>
-                            </div>
-                            <div class="metric">
-                                <span class="value">5k+</span>
-                                <span class="label">Daily orders</span>
-                            </div>
-                        </div>
-
-                        <div class="project-tags">
-                            <span class="tag">Next.js</span>
-                            <span class="tag">.NET Core</span>
-                            <span class="tag">PostgreSQL</span>
-                            <span class="tag">Redis</span>
-                        </div>
-
-                        <div class="project-decision">
-                            <strong>Scaling Strategy:</strong>
-                            <p>Vertical → Horizontal scaling, Microservices, Event-driven architecture</p>
-                        </div>
-
-                        <div class="project-links">
-                            <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
-                            <a href="#" class="project-link"><i class="fas fa-chart-bar"></i> Analytics</a>
-                            <a href="#" class="project-link"><i class="fas fa-play-circle"></i> Live Demo</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Background Job Monitor -->
-                <div class="project-card advanced" data-category="dotnet">
-                    <div class="project-header">
-                        <div class="project-status">
-                            <span class="status-badge">DevTools Style</span>
-                            <span class="status-badge">Real-time</span>
-                        </div>
-                    </div>
-                    <div class="project-image">
-                        <i class="fas fa-tasks"></i>
-                        <div class="demo-overlay">
-                            <button class="demo-btn" onclick="openJobMonitor()">
-                                <i class="fas fa-chart-line"></i> Open Monitor
-                            </button>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3>Job Processing Monitor</h3>
-                        
-                        <div class="problem-solution">
-                            <div class="problem">
-                                <h4><i class="fas fa-exclamation-triangle"></i> Problem</h4>
-                                <p>Background jobs failing silently, no visibility</p>
-                            </div>
-                            <div class="solution">
-                                <h4><i class="fas fa-lightbulb"></i> Solution</h4>
-                                <p>Real-time monitoring, Alerts, Retry mechanism</p>
-                            </div>
-                        </div>
-
-                        <div class="project-metrics">
-                            <div class="metric">
-                                <span class="value">1000+</span>
-                                <span class="label">Jobs/hour</span>
-                            </div>
-                            <div class="metric">
-                                <span class="value">99.5%</span>
-                                <span class="label">Success rate</span>
-                            </div>
-                            <div class="metric">
-                                <span class="value">Real-time</span>
-                                <span class="label">Monitoring</span>
-                            </div>
-                        </div>
-
-                        <div class="project-tags">
-                            <span class="tag">Hangfire</span>
-                            <span class="tag">.NET Core</span>
-                            <span class="tag">SignalR</span>
-                            <span class="tag">Prometheus</span>
-                        </div>
-
-                        <div class="project-decision">
-                            <strong>Reliability Pattern:</strong>
-                            <p>Retry + Circuit breaker + Dead letter queue</p>
-                        </div>
-
-                        <div class="project-links">
-                            <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
-                            <a href="#" class="project-link"><i class="fas fa-terminal"></i> Logs</a>
-                            <a href="#" class="project-link"><i class="fas fa-play-circle"></i> Dashboard</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- AI Chat Assistant Section -->
-    <section id="chat" class="ai-chat">
-        <div class="container">
-            <h2 class="section-title">AI Portfolio Assistant</h2>
-            <p class="section-subtitle">Men haqimda savol bering - AI yordamchim javob beradi</p>
-            
-            <div class="chat-container">
-                <div class="chat-suggestions">
-                    <h3>Tez savollar:</h3>
-                    <div class="suggestion-buttons">
-                        <button class="suggestion-btn" data-question="Qaysi project eng qiyin bo'lgan?">
-                            <i class="fas fa-rocket"></i> Eng qiyin loyiha?
-                        </button>
-                        <button class="suggestion-btn" data-question=".NET'da qanday optimizatsiyalar qilgansan?">
-                            <i class="fas fa-code"></i> .NET optimizatsiyalar?
-                        </button>
-                        <button class="suggestion-btn" data-question="50k user bo'lganda nima muammo bo'ldi?">
-                            <i class="fas fa-users"></i> Scaling tajribasi?
-                        </button>
-                        <button class="suggestion-btn" data-question="AI/ML loyihalaringiz haqida gapiring">
-                            <i class="fas fa-brain"></i> AI loyihalari?
-                        </button>
-                        <button class="suggestion-btn" data-question="System architecture yondashuvingiz?">
-                            <i class="fas fa-project-diagram"></i> Architecture approach?
-                        </button>
-                    </div>
-                </div>
-
-                <div class="chat-box">
-                    <div class="chat-header">
-                        <div class="chat-avatar">
-                            <i class="fas fa-robot"></i>
-                        </div>
-                        <div class="chat-info">
-                            <h4>Portfolio AI Assistant</h4>
-                            <span class="status-dot"></span>
-                            <span>Online</span>
-                        </div>
-                    </div>
-                    
-                    <div class="chat-messages" id="chatMessages">
-                        <div class="message ai-message">
-                            <div class="message-avatar">
-                                <i class="fas fa-robot"></i>
-                            </div>
-                            <div class="message-content">
-                                <p>Salom! 👋 Men Muhammadqodirning AI yordamchisiman. Uning portfolio, loyihalari va texnik tajribasi haqida savol berishingiz mumkin.</p>
-                                <span class="message-time">Hozir</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="chat-input-container">
-                        <input type="text" id="chatInput" placeholder="Savolingizni yozing..." class="chat-input">
-                        <button id="sendBtn" class="send-btn">
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- DevTools Monitor Section -->
-    <section id="monitor" class="devtools-monitor">
-        <div class="container">
-            <h2 class="section-title">Live System Monitor</h2>
-            <p class="section-subtitle">Production metrikalarini real-time kuzatish</p>
-            
-            <div class="monitor-tabs">
-                <button class="monitor-tab active" data-tab="console">
-                    <i class="fas fa-terminal"></i> Console
-                </button>
-                <button class="monitor-tab" data-tab="network">
-                    <i class="fas fa-network-wired"></i> Network
-                </button>
-                <button class="monitor-tab" data-tab="performance">
-                    <i class="fas fa-tachometer-alt"></i> Performance
-                </button>
-                <button class="monitor-tab" data-tab="logs">
-                    <i class="fas fa-file-alt"></i> Logs
-                </button>
-            </div>
-
-            <div class="monitor-content">
-                <!-- Console Tab -->
-                <div class="monitor-panel active" id="console">
-                    <div class="console-output">
-                        <div class="log-entry info">
-                            <span class="log-time">[12:34:56]</span>
-                            <span class="log-level">[INFO]</span>
-                            <span class="log-message">Application started successfully</span>
-                        </div>
-                        <div class="log-entry success">
-                            <span class="log-time">[12:35:02]</span>
-                            <span class="log-level">[SUCCESS]</span>
-                            <span class="log-message">Database connection established - PostgreSQL</span>
-                        </div>
-                        <div class="log-entry info">
-                            <span class="log-time">[12:35:10]</span>
-                            <span class="log-level">[INFO]</span>
-                            <span class="log-message">Redis cache warmed up - 1000+ keys loaded</span>
-                        </div>
-                        <div class="log-entry success">
-                            <span class="log-time">[12:35:15]</span>
-                            <span class="log-level">[SUCCESS]</span>
-                            <span class="log-message">API endpoint health check passed</span>
-                        </div>
-                        <div class="log-entry warning">
-                            <span class="log-time">[12:36:20]</span>
-                            <span class="log-level">[WARNING]</span>
-                            <span class="log-message">High memory usage detected: 85% - Auto-scaling triggered</span>
-                        </div>
-                        <div class="log-entry success">
-                            <span class="log-time">[12:36:45]</span>
-                            <span class="log-level">[SUCCESS]</span>
-                            <span class="log-message">New instance deployed - Load balanced</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Network Tab -->
-                <div class="monitor-panel" id="network">
-                    <div class="network-stats">
-                        <div class="stat-card">
-                            <h4>Requests/sec</h4>
-                            <div class="stat-value">8,543</div>
-                            <div class="stat-trend up">↑ 12%</div>
-                        </div>
-                        <div class="stat-card">
-                            <h4>Avg Response</h4>
-                            <div class="stat-value">245ms</div>
-                            <div class="stat-trend down">↓ 5%</div>
-                        </div>
-                        <div class="stat-card">
-                            <h4>Error Rate</h4>
-                            <div class="stat-value">0.02%</div>
-                            <div class="stat-trend down">↓ 50%</div>
-                        </div>
-                        <div class="stat-card">
-                            <h4>Active Users</h4>
-                            <div class="stat-value">42,891</div>
-                            <div class="stat-trend up">↑ 8%</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Performance Tab -->
-                <div class="monitor-panel" id="performance">
-                    <div class="performance-metrics">
-                        <div class="metric-row">
-                            <span class="metric-label">CPU Usage</span>
-                            <div class="metric-bar">
-                                <div class="metric-fill cpu" style="width: 45%"></div>
-                            </div>
-                            <span class="metric-value">45%</span>
-                        </div>
-                        <div class="metric-row">
-                            <span class="metric-label">Memory</span>
-                            <div class="metric-bar">
-                                <div class="metric-fill memory" style="width: 62%"></div>
-                            </div>
-                            <span class="metric-value">62%</span>
-                        </div>
-                        <div class="metric-row">
-                            <span class="metric-label">Database</span>
-                            <div class="metric-bar">
-                                <div class="metric-fill db" style="width: 38%"></div>
-                            </div>
-                            <span class="metric-value">38%</span>
-                        </div>
-                        <div class="metric-row">
-                            <span class="metric-label">Cache Hit Rate</span>
-                            <div class="metric-bar">
-                                <div class="metric-fill cache" style="width: 94%"></div>
-                            </div>
-                            <span class="metric-value">94%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Logs Tab -->
-                <div class="monitor-panel" id="logs">
-                    <div class="logs-filter">
-                        <button class="filter-btn active" data-level="all">All</button>
-                        <button class="filter-btn" data-level="info">Info</button>
-                        <button class="filter-btn" data-level="warning">Warning</button>
-                        <button class="filter-btn" data-level="error">Error</button>
-                    </div>
-                    <div class="logs-output">
-                        <!-- Logs will be dynamically added here -->
+                    <div class="project-links">
+                        <a href="https://github.com/Azamov-Muhammadqodir" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
                     </div>
                 </div>
             </div>
@@ -780,72 +821,166 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="contact">
+    <section class="section">
         <div class="container">
-            <h2 class="section-title">Bog'lanish</h2>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <h3>Keling, gaplashaylik!</h3>
-                    <p>Loyihangiz yoki takliflaringiz haqida muhokama qilish uchun menga xabar yuboring.</p>
-                    <div class="contact-details">
-                        <div class="contact-item">
-                            <i class="fas fa-envelope"></i>
-                            <div>
-                                <h4>Email</h4>
-                                <p>direct@mazamov.me</p>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-phone"></i>
-                            <div>
-                                <h4>Telefon</h4>
-                                <p>+998 93 698 02 09</p>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <div>
-                                <h4>Manzil</h4>
-                                <p>Toshkent, O'zbekiston</p>
-                            </div>
-                        </div>
+            <h2 class="section-title">Aloqa</h2>
+            
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
                     </div>
+                    <h3>Email</h3>
+                    <p>azamovmuhammadqodir01@gmail.com</p>
+                    <a href="mailto:azamovmuhammadqodir01@gmail.com" class="contact-link">
+                        <i class="fas fa-paper-plane"></i> Xabar yuborish
+                    </a>
                 </div>
-                <form class="contact-form">
-                    <div class="form-group">
-                        <input type="text" name="name" placeholder="Ismingiz" required>
+
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <h3>Telefon</h3>
+                    <p>+998 93 698 02 09</p>
+                    <a href="tel:+998936980209" class="contact-link">
+                        <i class="fas fa-phone-alt"></i> Qo'ng'iroq qilish
+                    </a>
+                </div>
+
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fab fa-telegram"></i>
+                    </div>
+                    <h3>Telegram</h3>
+                    <p>@AzamovMuhammadqodir</p>
+                    <a href="https://t.me/AzamovMuhammadqodir" target="_blank" class="contact-link">
+                        <i class="fab fa-telegram"></i> Yozish
+                    </a>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="contact-form-section" style="margin-top: 60px;">
+                <h3 style="text-align: center; font-size: 2rem; margin-bottom: 2rem;">Menga Xabar Yuboring</h3>
+                <form id="contactForm" class="contact-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name"><i class="fas fa-user"></i> Ismingiz</label>
+                            <input type="text" id="name" name="name" placeholder="Ismingiz" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                            <input type="email" id="email" name="email" placeholder="Email manzilingiz" required>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <input type="email" name="email" placeholder="Email manzilingiz" required>
+                        <label for="subject"><i class="fas fa-tag"></i> Mavzu</label>
+                        <input type="text" id="subject" name="subject" placeholder="Xabar mavzusi" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" name="subject" placeholder="Mavzu">
+                        <label for="message"><i class="fas fa-comment"></i> Xabar</label>
+                        <textarea id="message" name="message" rows="6" placeholder="Xabaringizni yozing..." required></textarea>
                     </div>
-                    <div class="form-group">
-                        <textarea name="message" rows="5" placeholder="Xabaringiz" required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-paper-plane"></i> Xabar Yuborish
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i> Yuborish
                     </button>
+                    <div id="formStatus" class="form-status"></div>
                 </form>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 Muhammadqodir. Barcha huquqlar himoyalangan.</p>
-            <div class="footer-social">
-                <a href="https://github.com/Azamov-Muhammadqodir" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-github"></i></a>
-                <a href="https://www.linkedin.com/in/azamov-muhammadqodir/" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-linkedin"></i></a>
-                <a href="https://t.me/AzamovMuhammadqodir" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-telegram"></i></a>
-                <a href="https://www.instagram.com/azamov.muhammadqodir/" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-instagram"></i></a>
-            </div>
+    <footer style="text-align: center; padding: 40px 20px; background: rgba(0, 0, 0, 0.2); margin-top: 40px;">
+        <p style="margin-bottom: 20px;">&copy; 2026 Muhammadqodir Azamov. Barcha huquqlar himoyalangan😁</p>
+        <div class="social-links">
+            <a href="https://github.com/Azamov-Muhammadqodir" target="_blank" rel="noopener noreferrer" class="social-icon">
+                <i class="fab fa-github"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/azamov-muhammadqodir/" target="_blank" rel="noopener noreferrer" class="social-icon">
+                <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="https://t.me/AzamovMuhammadqodir" target="_blank" rel="noopener noreferrer" class="social-icon">
+                <i class="fab fa-telegram"></i>
+            </a>
+            <a href="https://www.instagram.com/azamov.muhammadqodir/" target="_blank" rel="noopener noreferrer" class="social-icon">
+                <i class="fab fa-instagram"></i>
+            </a>
         </div>
     </footer>
 
-    <script src="js/script.js"></script>
-    <script src="js/advanced.js"></script>
+    <script>
+        // Telegram Bot Integration
+        const TELEGRAM_BOT_TOKEN = '5112077016:AAEdoRqCXob8zhMb84v_G_rs23xPNBkKMDE'; // Bu yerga bot tokeningizni qo'ying
+        const TELEGRAM_CHAT_ID = '5213009659'; // Bu yerga chat ID ni qo'ying
+
+        document.getElementById('contactForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formStatus = document.getElementById('formStatus');
+            const submitBtn = e.target.querySelector('.submit-btn');
+            
+            // Get form data
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            // Disable submit button
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Yuborilmoqda...';
+            
+            // Prepare Telegram message
+            const telegramMessage = `
+🔔 <b>Yangi Xabar Portfolio'dan</b>
+
+👤 <b>Ism:</b> ${name}
+📧 <b>Email:</b> ${email}
+📝 <b>Mavzu:</b> ${subject}
+
+💬 <b>Xabar:</b>
+${message}
+
+⏰ <b>Vaqt:</b> ${new Date().toLocaleString('uz-UZ')}
+            `;
+            
+            try {
+                // Send to Telegram
+                const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: TELEGRAM_CHAT_ID,
+                        text: telegramMessage,
+                        parse_mode: 'HTML'
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.ok) {
+                    formStatus.className = 'form-status success';
+                    formStatus.innerHTML = '<i class="fas fa-check-circle"></i> Xabar muvaffaqiyatli yuborildi! Tez orada javob beraman.';
+                    e.target.reset();
+                } else {
+                    throw new Error('Telegram API error');
+                }
+            } catch (error) {
+                formStatus.className = 'form-status error';
+                formStatus.innerHTML = '<i class="fas fa-exclamation-circle"></i> Xatolik yuz berdi. Iltimos, qaytadan urinib ko\'ring yoki to\'g\'ridan-to\'g\'ri telegram orqali yozing.';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Yuborish';
+                
+                // Hide status message after 5 seconds
+                setTimeout(() => {
+                    formStatus.style.display = 'none';
+                }, 5000);
+            }
+        });
+    </script>
 </body>
 </html>

@@ -613,3 +613,246 @@ function updateNetworkStats() {
 }
 
 updateNetworkStats();
+
+// ===== 3D Interactive Effects =====
+
+// 3D Card Tilt Effect on Mouse Move
+document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.skill-card, .project-card, .stat-box');
+    
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = (y - centerY) / 10;
+            const rotateY = (centerX - x) / 10;
+            
+            card.style.setProperty('--rotateX', `${rotateX}deg`);
+            card.style.setProperty('--rotateY', `${rotateY}deg`);
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            card.style.setProperty('--rotateX', '0deg');
+            card.style.setProperty('--rotateY', '0deg');
+        });
+    });
+});
+
+// Parallax 3D Effect on Scroll
+window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const parallaxElements = document.querySelectorAll('.hero-content, .hero-image, .about-image');
+    
+    parallaxElements.forEach((el, index) => {
+        const speed = (index + 1) * 0.1;
+        const yPos = -(scrolled * speed);
+        el.style.transform = `translate3d(0, ${yPos}px, ${index * 20}px)`;
+    });
+});
+
+// Interactive 3D Mouse Follow Effect
+document.addEventListener('mousemove', (e) => {
+    const shapes = document.querySelectorAll('.shape-3d');
+    const mouseX = e.clientX / window.innerWidth;
+    const mouseY = e.clientY / window.innerHeight;
+    
+    shapes.forEach((shape, index) => {
+        const speed = (index + 1) * 0.02;
+        const x = (mouseX - 0.5) * 100 * speed;
+        const y = (mouseY - 0.5) * 100 * speed;
+        
+        shape.style.transform = `translate(${x}px, ${y}px)`;
+    });
+});
+
+// 3D Depth Effect on Hero Section
+// Use existing heroSection from script.js or create if not exists
+const heroSectionAdvanced = document.querySelector('.hero');
+if (heroSectionAdvanced) {
+    heroSectionAdvanced.addEventListener('mousemove', (e) => {
+        const rect = heroSectionAdvanced.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width;
+        const y = (e.clientY - rect.top) / rect.height;
+        
+        const heroContent = heroSectionAdvanced.querySelector('.hero-content');
+        const heroImage = heroSectionAdvanced.querySelector('.hero-image');
+        
+        if (heroContent) {
+            const translateX = (x - 0.5) * 30;
+            const translateY = (y - 0.5) * 30;
+            heroContent.style.transform = `translate3d(${translateX}px, ${translateY}px, 50px)`;
+        }
+        
+        if (heroImage) {
+            const translateX = (x - 0.5) * -20;
+            const translateY = (y - 0.5) * -20;
+            heroImage.style.transform = `translate3d(${translateX}px, ${translateY}px, 30px)`;
+        }
+    });
+    
+    heroSectionAdvanced.addEventListener('mouseleave', () => {
+        const heroContent = heroSectionAdvanced.querySelector('.hero-content');
+        const heroImage = heroSectionAdvanced.querySelector('.hero-image');
+        
+        if (heroContent) heroContent.style.transform = 'translate3d(0, 0, 0)';
+        if (heroImage) heroImage.style.transform = 'translate3d(0, 0, 0)';
+    });
+}
+
+// Animated 3D Skill Bars
+const observerOptions = {
+    threshold: 0.5,
+    rootMargin: '0px 0px -100px 0px'
+};
+
+const skillObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const skillCard = entry.target;
+            const progressBar = skillCard.querySelector('.skill-progress');
+            const progress = progressBar.dataset.progress;
+            
+            // Add 3D animation
+            skillCard.style.animation = 'skillCard3DEntrance 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards';
+            
+            setTimeout(() => {
+                progressBar.style.width = progress + '%';
+                progressBar.style.animation = 'progressGlow 2s ease-in-out infinite';
+            }, 300);
+            
+            skillObserver.unobserve(skillCard);
+        }
+    });
+}, observerOptions);
+
+// Add animation keyframes
+if (!document.getElementById('skillCard3DAnimation')) {
+    const style = document.createElement('style');
+    style.id = 'skillCard3DAnimation';
+    style.textContent = `
+        @keyframes skillCard3DEntrance {
+            0% {
+                opacity: 0;
+                transform: perspective(1000px) rotateX(-90deg) translateY(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: perspective(1000px) rotateX(0deg) translateY(0);
+            }
+        }
+        
+        @keyframes progressGlow {
+            0%, 100% {
+                box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(99, 102, 241, 0.8), 0 0 30px rgba(139, 92, 246, 0.6);
+            }
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+document.querySelectorAll('.skill-card').forEach(card => {
+    skillObserver.observe(card);
+});
+
+// 3D Button Ripple Effect
+document.querySelectorAll('.btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        const ripple = document.createElement('span');
+        const rect = this.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
+        
+        ripple.style.cssText = `
+            position: absolute;
+            width: ${size}px;
+            height: ${size}px;
+            left: ${x}px;
+            top: ${y}px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple3D 0.6s ease-out;
+            pointer-events: none;
+        `;
+        
+        this.style.position = 'relative';
+        this.appendChild(ripple);
+        
+        setTimeout(() => ripple.remove(), 600);
+    });
+});
+
+// Add ripple animation
+if (!document.getElementById('ripple3DAnimation')) {
+    const style = document.createElement('style');
+    style.id = 'ripple3DAnimation';
+    style.textContent = `
+        @keyframes ripple3D {
+            0% {
+                transform: scale(0) translateZ(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2) translateZ(50px);
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// Gyroscope Effect for Mobile (3D tilt based on device orientation)
+if (window.DeviceOrientationEvent && /Mobi|Android/i.test(navigator.userAgent)) {
+    window.addEventListener('deviceorientation', (e) => {
+        const cards = document.querySelectorAll('.skill-card, .project-card');
+        const tiltX = e.beta / 2; // -90 to 90
+        const tiltY = e.gamma / 2; // -90 to 90
+        
+        cards.forEach(card => {
+            card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+        });
+    });
+}
+
+// Smooth 3D Section Transitions
+const sectionsAdvanced = document.querySelectorAll('section');
+const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.animation = 'section3DFadeIn 1s cubic-bezier(0.23, 1, 0.32, 1) forwards';
+        }
+    });
+}, { threshold: 0.1 });
+
+if (!document.getElementById('section3DAnimation')) {
+    const style = document.createElement('style');
+    style.id = 'section3DAnimation';
+    style.textContent = `
+        @keyframes section3DFadeIn {
+            0% {
+                opacity: 0;
+                transform: perspective(1000px) translateZ(-100px);
+            }
+            100% {
+                opacity: 1;
+                transform: perspective(1000px) translateZ(0);
+            }
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+sectionsAdvanced.forEach(section => {
+    sectionObserver.observe(section);
+});
+
+console.log('🎨 3D Animations loaded successfully!');
