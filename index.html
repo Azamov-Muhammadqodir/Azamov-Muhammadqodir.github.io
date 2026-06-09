@@ -45,6 +45,7 @@
     <title>Muhammadqodir Azamov - .NET Developer | ASP.NET, Blazor, WPF | O'zbekiston</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     
+   
     <!-- Schema.org Structured Data for SEO -->
     <script type="application/ld+json">
     {
@@ -300,30 +301,42 @@
             align-items: center;
             justify-content: center;
             text-align: center;
+            position: relative;
+            z-index: 2;
+            pointer-events: auto;
+        }
+        
+        .hero .container {
+            position: relative;
+            z-index: 2;
         }
 
-        .avatar {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
+        #hero-model canvas{
+
+        }
+
+        #hero-model {
+            width: 400px;
+            height: 400px;
             margin: 0 auto 2rem;
-            border: 5px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
+            border: none !important;
+            box-shadow: none !important;
+            overflow: visible !important;
             animation: float3D 3s ease-in-out infinite, fadeIn 1s ease-in;
             transform-style: preserve-3d;
             transition: transform 0.5s ease;
+            position: relative;
+            outline: none !important;
+            background: transparent !important;
+            padding: 0 !important;
         }
 
-        .avatar:hover {
-            transform: rotateY(360deg) scale(1.1);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-        }
-
-        .avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+       
+        /* disable hover effects so no frame appears */
+        #hero-model:hover {
+            transform: none !important;
+            box-shadow: none !important;
+            overflow: visible !important;
         }
 
         .hero-content h1 {
@@ -723,9 +736,9 @@
                 font-size: 2rem;
             }
 
-            .avatar {
-                width: 150px;
-                height: 150px;
+            #hero-model {
+                width: 100vw;
+                height: 100vh;
             }
 
             .contact-form {
@@ -800,16 +813,28 @@
         }
     </script>
 
+     <script type="importmap">
+    {
+        "imports": {
+            "three": "./node_modules/three/build/three.module.js",
+            "three/examples/jsm/loaders/GLTFLoader.js": "./node_modules/three/examples/jsm/loaders/GLTFLoader.js"
+        }
+    }
+    </script>
+    
+
+   
+</script>iii
     <!-- Hero Section -->
     <section id="home" class="hero" role="banner">
         <div class="container">
+            <div id="hero-model"></div>
             <div class="hero-content">
-                <div class="avatar">
-                    <img src="images/profile.jpg" alt="Muhammadqodir Azamov - .NET Developer portrait photo" loading="eager">
-                </div>
+                
+                
                 <h1>A'zamov Muhammadqodir</h1>
                 <h2>.NET Developer</h2>
-                <p>
+                <p style="z-index: 2; position: relative;">
                     Professional .NET Developer. Bir nechta web va desktop loyihalar ishlab chiqqanman. 
                     ASP.NET Core, Blazor, Desktop texnologiyalari bo'yicha tajribali dasturchiman.
                 </p>
@@ -1108,6 +1133,17 @@ ${message}
         });
     </script>
 </body>
+ <script type="module">
+  import('./main-module.js').catch(err => {
+    console.error('Module load error:', err);
+    const msg = document.createElement('div');
+    msg.style.cssText = 'position:fixed;top:10px;left:10px;background:red;color:white;padding:10px;z-index:9999;max-width:400px;word-wrap:break-word;';
+    msg.textContent = 'Xato: ' + err.message;
+    document.body.appendChild(msg);
+  });
+  </script>
+
+
 </html>
 <!-- 
     SEO Keywords: .NET Developer, .NET Dasturchi, Muhammadqodir A'zamov, Azamov, ASP.NET Developer, 
