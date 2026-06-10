@@ -170,7 +170,7 @@
 
         /* ── Hero ───────────────────────────────────────── */
         #hero-model {
-            z-index: 0;
+            z-index: 1;
             pointer-events: none;
         }
 
@@ -583,11 +583,41 @@
             }
             .navbar-links.open { display: flex; }
 
+            /* Hero: overlay absolute (faqat hero qoplar, ost sectionlar ochiq qoladi) */
             .hero { padding: 88px 24px 60px; justify-content: center; }
-            .hero::before { background: rgba(6,6,18,0.68); }
+            .hero::before {
+                position: absolute;
+                background: rgba(6,6,18,0.55);
+            }
+            .hero::after { display: none; }
             .hero-content { text-align: center; max-width: 100%; }
             .hero-actions { justify-content: center; }
             .social-links { justify-content: center; }
+
+            /* Sections: shaffof, 3D model orqada ko'rinadi */
+            #projects, #contact { background: transparent; }
+            .section-divider { display: none; }
+            footer {
+                background: transparent;
+                border-top-color: rgba(255,255,255,0.06);
+            }
+
+            /* Kartalar: glass-morphism effekt */
+            .project-card,
+            .contact-card,
+            .contact-form {
+                background: rgba(6,6,18,0.62);
+                backdrop-filter: blur(18px);
+                -webkit-backdrop-filter: blur(18px);
+            }
+
+            /* Section sarlavhalari o'qilarliroq bo'lishi uchun */
+            .section-header {
+                padding: 16px;
+                background: radial-gradient(ellipse 140% 100% at 50% 0%,
+                    rgba(6,6,18,0.65) 0%, transparent 100%);
+                border-radius: var(--radius);
+            }
 
             .section { padding: 68px 24px; }
             .projects-grid { grid-template-columns: 1fr; }
@@ -599,6 +629,9 @@
     </style>
 </head>
 <body>
+
+    <!-- Canvas: root stacking context da z-index 1, barcha sectionlar orqasida -->
+    <div id="hero-model"></div>
 
     <!-- ── Navbar ──────────────────────────────────────── -->
     <nav class="navbar" role="navigation" aria-label="Asosiy navigatsiya">
@@ -615,7 +648,6 @@
 
     <!-- ── Hero ────────────────────────────────────────── -->
     <section id="home" class="hero" role="banner">
-        <div id="hero-model"></div>
         <div class="hero-content">
             <div class="hero-badge">
                 <span class="hero-badge-dot"></span>
