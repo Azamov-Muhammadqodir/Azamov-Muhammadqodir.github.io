@@ -823,8 +823,7 @@
     </script>
     
 
-   
-</script>iii
+
     <!-- Hero Section -->
     <section id="home" class="hero" role="banner">
         <div class="container">
@@ -1132,16 +1131,13 @@ ${message}
             }
         });
     </script>
+
+    <script type="module">
+        import('./main-module.js').catch(err => {
+            console.error('Module load error:', err);
+        });
+    </script>
 </body>
- <script type="module">
-  import('./main-module.js').catch(err => {
-    console.error('Module load error:', err);
-    const msg = document.createElement('div');
-    msg.style.cssText = 'position:fixed;top:10px;left:10px;background:red;color:white;padding:10px;z-index:9999;max-width:400px;word-wrap:break-word;';
-    msg.textContent = 'Xato: ' + err.message;
-    document.body.appendChild(msg);
-  });
-  </script>
 
 
 </html>
