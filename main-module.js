@@ -40,7 +40,8 @@ let model = null;
 const loader = new GLTFLoader();
 loader.load('./model.glb', (gltf) => {
     model = gltf.scene;
-    model.scale.set(4.0, 4.0, 4.0);
+    const s = isMobile ? 3.0 : 4.0;
+    model.scale.set(s, s, s);
     model.position.set(0, 0, 0);
     scene.add(model);
 
@@ -78,7 +79,7 @@ if (!isMobile) {
     });
 } else {
     // --- Mobile: gyroscope (tilt phone to rotate model) ---
-    const BETA_NEUTRAL = 75; // upright portrait ≈ 75°
+    const BETA_NEUTRAL = 60; // upright (90°) minus 30° backward tilt = 60°
     const TILT_RANGE = 35;   // degrees of tilt for full -1..1 sweep
 
     let gyroActive = false;
