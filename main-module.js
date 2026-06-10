@@ -40,6 +40,14 @@ let model = null;
 const loader = new GLTFLoader();
 loader.load('./model.glb', (gltf) => {
     model = gltf.scene;
+
+    // Model yuklanib bo'ldi — loaderni yashir
+    const loaderEl = document.getElementById('model-loader');
+    if (loaderEl) {
+        loaderEl.classList.add('hidden');
+        setTimeout(() => loaderEl.remove(), 650);
+    }
+
     const s = isMobile ? 3.0 : 4.0;
     model.scale.set(s, s, s);
     model.position.set(0, 0, 0);
