@@ -158,6 +158,10 @@ window.addEventListener('resize', () => {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 });
 
+// Mobilda model chap-o'ngga qaraydi, lekin yon tomonga kam egiladi (~10°)
+const YAW_RANGE = isMobile ? THREE.MathUtils.degToRad(10) : Math.PI / 2;
+const PITCH_RANGE = isMobile ? THREE.MathUtils.degToRad(10) : Math.PI / 3;
+
 function animate() {
     requestAnimationFrame(animate);
     if (model) {
@@ -166,7 +170,7 @@ function animate() {
             : model.quaternion.clone();
 
         const rot = new THREE.Quaternion().setFromEuler(
-            new THREE.Euler(input.y * (Math.PI / 3), input.x * (Math.PI / 2), 0, 'XYZ')
+            new THREE.Euler(input.y * PITCH_RANGE, input.x * YAW_RANGE, 0, 'XYZ')
         );
         model.quaternion.slerp(baseQ.multiply(rot), 0.08);
     }
