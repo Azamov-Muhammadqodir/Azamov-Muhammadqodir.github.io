@@ -215,6 +215,51 @@
             to { transform: rotate(360deg); }
         }
 
+        /* ── Work-in-progress notice ─────────────────────── */
+        .wip-banner {
+            position: fixed;
+            bottom: 32px;
+            left: 32px;
+            z-index: 150;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(124, 58, 237, 0.14);
+            border: 1px solid rgba(124, 58, 237, 0.35);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 40px;
+            padding: 10px 16px;
+            max-width: calc(100vw - 64px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .wip-banner.hidden {
+            opacity: 0;
+            transform: translateY(8px);
+            pointer-events: none;
+        }
+        .wip-banner i.fa-tools {
+            color: var(--primary-light);
+            flex-shrink: 0;
+        }
+        .wip-banner span {
+            font-size: 12px;
+            color: var(--text);
+            white-space: nowrap;
+        }
+        .wip-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 12px;
+            padding: 2px 4px;
+            margin-left: 2px;
+            flex-shrink: 0;
+            transition: color 0.2s;
+        }
+        .wip-close:hover { color: var(--text); }
+
         .hero {
             min-height: 100vh;
             display: flex; align-items: center;
@@ -666,6 +711,9 @@
             .form-row { grid-template-columns: 1fr; }
             .contact-form { padding: 24px 18px; }
             footer { padding: 28px 24px; }
+
+            .wip-banner { bottom: 20px; left: 20px; padding: 8px 13px; }
+            .wip-banner span { white-space: normal; font-size: 11px; }
         }
     </style>
 </head>
@@ -678,6 +726,15 @@
     <div id="model-loader">
         <div class="loader-spinner"></div>
         <span class="loader-text">3D model yuklanmoqda…</span>
+    </div>
+
+    <!-- Sayt hali ishlab chiqilmoqda degan bildirishnoma -->
+    <div id="wipBanner" class="wip-banner">
+        <i class="fas fa-tools"></i>
+        <span>Sayt hali ishlab chiqilmoqda</span>
+        <button id="wipClose" class="wip-close" aria-label="Yopish">
+            <i class="fas fa-times"></i>
+        </button>
     </div>
 
     <!-- ── Navbar ──────────────────────────────────────── -->
@@ -923,6 +980,19 @@
                 setTimeout(() => { formStatus.style.display = 'none'; }, 5000);
             }
         });
+
+        // Work-in-progress bildirishnomasi (yopilsa qayta ko'rsatilmaydi)
+        const wipBanner = document.getElementById('wipBanner');
+        const wipClose  = document.getElementById('wipClose');
+        if (localStorage.getItem('wipBannerDismissed') === '1') {
+            wipBanner.style.display = 'none';
+        } else {
+            wipClose.addEventListener('click', () => {
+                wipBanner.classList.add('hidden');
+                localStorage.setItem('wipBannerDismissed', '1');
+                setTimeout(() => wipBanner.remove(), 500);
+            });
+        }
 
         // Navbar hamburger toggle
         const navToggle = document.querySelector('.nav-toggle');
