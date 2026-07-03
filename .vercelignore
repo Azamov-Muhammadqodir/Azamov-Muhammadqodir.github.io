@@ -1,0 +1,16 @@
+# Vercel bu yerda faqat api/telegram.js funksiyasini deploy qiladi.
+# Saytning o'zi GitHub Pages'da joylashgan, shuning uchun statik
+# fayllar va katta papkalar Vercel deployiga kerak emas.
+node_modules
+three
+images
+model.glb
+main-module.js
+index.html
+google183bdf594adb24eb.html
+sitemap.xml
+robots.txt
+favicon.svg
+server.js
+README.md
+CNAME
