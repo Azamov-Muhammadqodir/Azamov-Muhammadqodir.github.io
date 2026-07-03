@@ -970,15 +970,21 @@
             }
         }
 
-        // Tashriflar hisoblagichi: IP ni aniqlaydi, umumiy hisobni oshiradi,
-        // saytda ko'rsatadi va Telegramga xabar yuboradi
+        // Tashriflar hisoblagichi: IP dan olinadigan barcha ma'lumotlarni
+        // aniqlaydi, umumiy hisobni oshiradi, saytda ko'rsatadi va
+        // Telegramga to'liq xabar yuboradi
         (async () => {
             let ip = 'Noma\'lum';
+            let geo = null;
             let totalVisits = null;
 
             try {
-                const ipRes = await fetch('https://api.ipify.org?format=json');
-                ip = (await ipRes.json()).ip;
+                const geoRes = await fetch('https://ipapi.co/json/');
+                const data = await geoRes.json();
+                if (!data.error) {
+                    geo = data;
+                    ip = data.ip || ip;
+                }
             } catch (_) {}
 
             try {
@@ -989,8 +995,27 @@
             const counterEl = document.getElementById('visitCountValue');
             if (counterEl) counterEl.textContent = totalVisits !== null ? totalVisits.toLocaleString('uz-UZ') : '—';
 
-            const text = `👁 <b>Yangi tashrif — Portfolio</b>\n\n🌐 <b>IP:</b> ${ip}\n🔢 <b>Jami tashriflar:</b> ${totalVisits ?? 'noma\'lum'}\n🕒 <b>Vaqt:</b> ${new Date().toLocaleString('uz-UZ')}`;
-            sendTelegramMessage(text);
+            const lines = ['👁 <b>Yangi tashrif — Portfolio</b>', ''];
+            lines.push(`🌐 <b>IP:</b> ${ip}${geo && geo.version ? ` (${geo.version})` : ''}`);
+
+            if (geo) {
+                const place = [geo.city, geo.region, geo.country_name].filter(Boolean).join(', ');
+                if (place) lines.push(`📍 <b>Manzil:</b> ${place}${geo.postal ? `, ${geo.postal}` : ''}`);
+                if (geo.org || geo.asn) lines.push(`🏢 <b>Provayder:</b> ${[geo.org, geo.asn].filter(Boolean).join(' — ')}`);
+                if (geo.latitude && geo.longitude) {
+                    lines.push(`🗺 <b>Koordinatalar:</b> <a href="https://maps.google.com/?q=${geo.latitude},${geo.longitude}">${geo.latitude}, ${geo.longitude}</a>`);
+                }
+                if (geo.timezone) lines.push(`🕒 <b>Vaqt zonasi:</b> ${geo.timezone}${geo.utc_offset ? ` (UTC${geo.utc_offset})` : ''}`);
+                if (geo.currency) lines.push(`💰 <b>Valyuta:</b> ${geo.currency}${geo.currency_name ? ` (${geo.currency_name})` : ''}`);
+                if (geo.languages) lines.push(`🗣 <b>Tillar:</b> ${geo.languages}`);
+                if (geo.country_calling_code) lines.push(`☎️ <b>Davlat kodi:</b> ${geo.country_calling_code}`);
+                if (geo.network) lines.push(`🔗 <b>Tarmoq:</b> ${geo.network}`);
+            }
+
+            lines.push(`🔢 <b>Jami tashriflar:</b> ${totalVisits ?? 'noma\'lum'}`);
+            lines.push(`🕒 <b>Vaqt:</b> ${new Date().toLocaleString('uz-UZ')}`);
+
+            sendTelegramMessage(lines.join('\n'));
         })();
 
         document.getElementById('contactForm').addEventListener('submit', async (e) => {
