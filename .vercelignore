@@ -1,16 +1,9 @@
 # Vercel bu yerda faqat api/telegram.js funksiyasini deploy qiladi.
-# Saytning o'zi GitHub Pages'da joylashgan, shuning uchun statik
-# fayllar va katta papkalar Vercel deployiga kerak emas.
+# Saytning o'zi GitHub Pages'da joylashgan. Faqat og'ir/keraksiz
+# papkalarni chiqarib tashlaymiz — kichik fayllarni (index.html,
+# server.js va h.k.) qoldiramiz, aks holda Vercel loyiha turini
+# noto'g'ri aniqlaydi ("No entrypoint found" xatosi).
 node_modules
 three
 images
 model.glb
-main-module.js
-index.html
-google183bdf594adb24eb.html
-sitemap.xml
-robots.txt
-favicon.svg
-server.js
-README.md
-CNAME
