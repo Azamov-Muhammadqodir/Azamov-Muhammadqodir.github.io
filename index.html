@@ -646,6 +646,13 @@
             color: var(--text-muted); font-size: 0.82rem; margin-bottom: 20px;
         }
         footer .social-links { justify-content: center; }
+        footer .visit-counter {
+            margin-top: -12px;
+            font-size: 0.76rem;
+            color: var(--text-muted);
+            opacity: 0.7;
+        }
+        footer .visit-counter i { color: var(--primary-light); margin-right: 4px; }
 
         /* ── Scroll reveal ───────────────────────────────── */
         .reveal {
@@ -924,6 +931,7 @@
     <!-- ── Footer ───────────────────────────────────────── -->
     <footer>
         <p>&copy; 2026 Muhammadqodir A'zamov. Barcha huquqlar himoyalangan.</p>
+        <p class="visit-counter"><i class="fas fa-eye"></i> <span id="visitCountValue">…</span> marta tashrif buyurilgan</p>
         <div class="social-links">
             <a href="https://github.com/Azamov-Muhammadqodir" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="GitHub">
                 <i class="fab fa-github"></i>
@@ -942,8 +950,48 @@
 
     <!-- Telegram contact form handler -->
     <script>
-        const TELEGRAM_BOT_TOKEN = '5112077016:AAEdoRqCXob8zhMb84v_G_rs23xPNBkKMDE';
-        const TELEGRAM_CHAT_ID   = '5213009659';
+        // Telegramga xabar yuborish endi shu proxy orqali amalga oshadi —
+        // bot token bu yerda emas, Vercel loyihasining Environment Variables
+        // bo'limida saqlanadi (api/telegram.js). Deploy qilgach shu URL ni
+        // o'z Vercel loyihangiz manziliga almashtiring.
+        const TELEGRAM_PROXY_URL = 'https://azamov-muhammadqodir-github-io.vercel.app/api/telegram';
+
+        async function sendTelegramMessage(text) {
+            try {
+                const res = await fetch(TELEGRAM_PROXY_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text })
+                });
+                const data = await res.json();
+                return data.ok === true;
+            } catch (_) {
+                return false;
+            }
+        }
+
+        // Tashriflar hisoblagichi: IP ni aniqlaydi, umumiy hisobni oshiradi,
+        // saytda ko'rsatadi va Telegramga xabar yuboradi
+        (async () => {
+            let ip = 'Noma\'lum';
+            let totalVisits = null;
+
+            try {
+                const ipRes = await fetch('https://api.ipify.org?format=json');
+                ip = (await ipRes.json()).ip;
+            } catch (_) {}
+
+            try {
+                const hitRes = await fetch('https://api.countapi.xyz/hit/mazamov-me-portfolio/visits');
+                totalVisits = (await hitRes.json()).value;
+            } catch (_) {}
+
+            const counterEl = document.getElementById('visitCountValue');
+            if (counterEl) counterEl.textContent = totalVisits !== null ? totalVisits.toLocaleString('uz-UZ') : '—';
+
+            const text = `👁 <b>Yangi tashrif — Portfolio</b>\n\n🌐 <b>IP:</b> ${ip}\n🔢 <b>Jami tashriflar:</b> ${totalVisits ?? 'noma\'lum'}\n🕒 <b>Vaqt:</b> ${new Date().toLocaleString('uz-UZ')}`;
+            sendTelegramMessage(text);
+        })();
 
         document.getElementById('contactForm').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -960,13 +1008,8 @@
             const text = `🔔 <b>Yangi Xabar Portfolio'dan</b>\n\n👤 <b>Ism:</b> ${name}\n📧 <b>Email:</b> ${email}\n📝 <b>Mavzu:</b> ${subject}\n\n💬 <b>Xabar:</b>\n${message}\n\n⏰ <b>Vaqt:</b> ${new Date().toLocaleString('uz-UZ')}`;
 
             try {
-                const res  = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text, parse_mode: 'HTML' })
-                });
-                const data = await res.json();
-                if (data.ok) {
+                const ok = await sendTelegramMessage(text);
+                if (ok) {
                     formStatus.className = 'form-status success';
                     formStatus.innerHTML = '<i class="fas fa-check-circle"></i> Xabar muvaffaqiyatli yuborildi!';
                     e.target.reset();
