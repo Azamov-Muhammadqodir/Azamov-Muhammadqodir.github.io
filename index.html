@@ -970,13 +970,44 @@
             }
         }
 
-        // Tashriflar hisoblagichi: IP dan olinadigan barcha ma'lumotlarni
-        // aniqlaydi, umumiy hisobni oshiradi, saytda ko'rsatadi va
-        // Telegramga to'liq xabar yuboradi
+        // Brauzerdan aniq (GPS) joylashuvni so'raydi. Bu funksiya brauzerning
+        // o'z "joylashuvga ruxsat berasizmi?" oynasini chiqaradi — tashrifchi
+        // o'zi ruxsat bermasa, koordinatalar olinmaydi.
+        function requestPreciseLocation() {
+            return new Promise((resolve) => {
+                if (!('geolocation' in navigator)) {
+                    resolve(null);
+                    return;
+                }
+                let settled = false;
+                const done = (value) => {
+                    if (settled) return;
+                    settled = true;
+                    resolve(value);
+                };
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => done({
+                        latitude: pos.coords.latitude,
+                        longitude: pos.coords.longitude,
+                        accuracy: pos.coords.accuracy,
+                        altitude: pos.coords.altitude,
+                    }),
+                    () => done(null),
+                    { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 }
+                );
+            });
+        }
+
+        // Tashriflar hisoblagichi: aniq joylashuvni (ruxsat berilsa) va IP dan
+        // olinadigan ma'lumotlarni aniqlaydi, umumiy hisobni oshiradi, saytda
+        // ko'rsatadi va Telegramga to'liq xabar yuboradi
         (async () => {
             let ip = 'Noma\'lum';
             let geo = null;
             let totalVisits = null;
+
+            // Avval tashrifchidan aniq joylashuvni so'raymiz (ruxsat oynasi chiqadi)
+            const preciseLocation = await requestPreciseLocation();
 
             try {
                 const geoRes = await fetch('https://ipapi.co/json/');
@@ -996,6 +1027,19 @@
             if (counterEl) counterEl.textContent = totalVisits !== null ? totalVisits.toLocaleString('uz-UZ') : '—';
 
             const lines = ['👁 <b>Yangi tashrif — Portfolio</b>', ''];
+
+            if (preciseLocation) {
+                const { latitude, longitude, accuracy, altitude } = preciseLocation;
+                lines.push('🎯 <b>Aniq joylashuv (GPS, ruxsat berildi):</b>');
+                lines.push(`📌 <a href="https://maps.google.com/?q=${latitude},${longitude}">${latitude}, ${longitude}</a>`);
+                if (accuracy != null) lines.push(`🎚 <b>Aniqlik:</b> ±${Math.round(accuracy)} m`);
+                if (altitude != null) lines.push(`⛰ <b>Balandlik:</b> ${Math.round(altitude)} m`);
+                lines.push('');
+            } else {
+                lines.push('🚫 <b>Aniq joylashuv:</b> ruxsat berilmadi (faqat IP bo\'yicha)');
+                lines.push('');
+            }
+
             lines.push(`🌐 <b>IP:</b> ${ip}${geo && geo.version ? ` (${geo.version})` : ''}`);
 
             if (geo) {
